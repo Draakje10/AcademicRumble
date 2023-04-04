@@ -8,4 +8,9 @@ public class utils {
     public static Entity getPlayer() {
         return GameWorldController.world().getSingleton(EntityTypes.PLAYER);
     }
+
+    @NotNull
+    public static Entity getEnemy() {
+        return GameWorldController.world().getSingleton(EntityTypes.ENEMY);
+    }
 }

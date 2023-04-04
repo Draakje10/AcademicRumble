@@ -1,6 +1,6 @@
 package com.example.academicrumble;
 
 public enum EntityTypes {
-    PLAYER,WALL
+    PLAYER,WALL,ENEMY
 
 }

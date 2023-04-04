@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import static com.example.academicrumble.utils.*;
 
 public class Game extends GameApplication {
 
@@ -36,8 +37,9 @@ public class Game extends GameApplication {
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
         FXGL.setLevelFromMap("naamloos.tmx");
         GameWorldController.spawn("Player", new SpawnData(200,500));
-
-
+        GameWorldController.spawn("Enemy", new SpawnData(400,200));
+        FXGL.getGameTimer().runAtInterval(()-> {
+        }, Duration.seconds(2));
 
     }
     @Override

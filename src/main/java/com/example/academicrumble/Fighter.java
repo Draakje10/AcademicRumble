@@ -9,8 +9,12 @@ import javafx.geometry.Point2D;
 
 @SuppressWarnings("unused")
 public class Fighter extends Sprite {
-    public Fighter(String path, Point2D pos) {
+
+    private final EntityTypes type;
+
+    public Fighter(String path, Point2D pos, EntityTypes type) {
         super(path, pos);
+        this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
         physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
@@ -23,13 +27,14 @@ public class Fighter extends Sprite {
                 .at(this.pos)
                 .viewWithBBox(this.path)
                 .with(physics)
-                .type(EntityTypes.PLAYER)
+                .type(this.type)
                 .collidable()
                 .build();
     }
 
-    public Fighter(String path, Point2D pos, Point2D scale) {
+    public Fighter(String path, Point2D pos, Point2D scale, EntityTypes type) {
         super(path, pos, scale);
+        this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
         physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
@@ -43,7 +48,7 @@ public class Fighter extends Sprite {
                 .viewWithBBox(this.path)
                 .scale(this.scale)
                 .with(physics)
-                .type(EntityTypes.PLAYER)
+                .type(this.type)
                 .collidable()
                 .build();
     }

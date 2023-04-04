@@ -15,6 +15,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class AcademicRumbleFactory implements EntityFactory {
@@ -32,10 +33,15 @@ public class AcademicRumbleFactory implements EntityFactory {
     }
 
     @Spawns("Player")
-    public Entity spawnPlayer(SpawnData data) {
-        Sprite player = new Fighter("char.png", new Point2D(data.getX(), data.getY()));
+    public Entity spawnPlayer(@NotNull SpawnData data) {
+        Sprite player = new Fighter("char.png", new Point2D(data.getX(), data.getY()), EntityTypes.PLAYER);
         return player.getEntity();
+    }
 
+    @Spawns("Enemy")
+    public Entity spawnEnemy(@NotNull SpawnData data) {
+        Sprite enemy = new Fighter("char.png", new Point2D(data.getX(), data.getY()), EntityTypes.ENEMY);
+        return enemy.getEntity();
     }
 
     @Spawns("Wall")
