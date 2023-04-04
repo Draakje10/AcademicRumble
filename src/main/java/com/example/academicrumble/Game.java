@@ -76,9 +76,9 @@ public class Game extends GameApplication {
                 FXGL.inc("enemyHealth", -5);
             }
         });
-        FXGL.onKey(KeyCode.LEFT, "eMove Left", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
-        FXGL.onKey(KeyCode.RIGHT, "eMove Right", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
-        FXGL.onKeyDown(KeyCode.UP, "eMove Up", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
+        FXGL.onKey(KeyCode.LEFT, "eMove Left", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
+        FXGL.onKey(KeyCode.RIGHT, "eMove Right", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
+        FXGL.onKeyDown(KeyCode.UP, "eMove Up", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
         FXGL.onKeyDown(KeyCode.SLASH, () -> {
             if (isColliding){
                 FXGL.inc("playerHealth", -5);
