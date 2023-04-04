@@ -22,7 +22,7 @@ public class MySceneFactory extends SceneFactory {
 
     @Override
     public FXGLMenu newMainMenu() {
-        return new MyMenu(MenuType.MAIN_MENU);
+        return new CharacterSelect(MenuType.MAIN_MENU);
     }
 
 //    @Override
