@@ -31,10 +31,10 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame(){
-
+        TiledMap tiledMap = FXGL.getAssetLoader().loadJSON("naamloos.json", TiledMap.class);
 
         FXGL.getGameWorld().addEntityFactory(new GameFactory());
-        Level level=  FXGL.setLevelFromMap("tmx/naamloos.tmx");
+
 
         FXGL.spawn("Player", new SpawnData(200,500));
         FXGL.getGameTimer().runAtInterval(()-> {
