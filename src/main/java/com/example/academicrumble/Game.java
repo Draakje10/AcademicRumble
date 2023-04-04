@@ -30,10 +30,8 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame(){
-
-
         FXGL.getGameWorld().addEntityFactory(new GameFactory());
-        FXGL.setLevelFromMap("tmx/naamloos.tmx");
+        FXGL.setLevelFromMap("naamloos.tmx");
         FXGL.spawn("Player", new SpawnData(200,500));
         FXGL.getGameTimer().runAtInterval(()-> {
 
