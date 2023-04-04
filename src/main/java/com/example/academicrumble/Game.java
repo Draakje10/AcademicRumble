@@ -35,7 +35,7 @@ public class Game extends GameApplication {
     @Override
     protected void initGame(){
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-        FXGL.setLevelFromMap("naamloos.tmx");
+//        FXGL.setLevelFromMap("naamloos.tmx");
         GameWorldController.spawn("Player", new SpawnData(200,500));
         GameWorldController.spawn("Enemy", new SpawnData(400,200));
         FXGL.getGameTimer().runAtInterval(()-> {
@@ -44,15 +44,10 @@ public class Game extends GameApplication {
     }
     @Override
     protected void initInput(){
-        FXGL.onKey(KeyCode.D,() -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityX(5);
-        });
-        FXGL.onKey(KeyCode.A,() -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-5);
-        });
-        FXGL.onKeyDown(KeyCode.SPACE, () -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityY(10);
-        });
+        FXGL.onKey(KeyCode.A, "Move Left", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
+        FXGL.onKey(KeyCode.D, "Move Right", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
+        FXGL.onKey(KeyCode.W, "Move Up", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
+        FXGL.onKey(KeyCode.S, "Move Down", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityY(Const.SPEED));
     }
 
     @Override
