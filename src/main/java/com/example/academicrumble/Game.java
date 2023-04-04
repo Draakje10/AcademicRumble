@@ -13,28 +13,30 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 public class Game extends GameApplication {
 
 
+    @NotNull
     private static Entity getPlayer() {
         return FXGL.getGameWorld().getSingleton(EntityTypes.PLAYER);
     }
 
     @Override
-    protected void initSettings(GameSettings settings) {
-        settings.setTitle("Academic Rumble");
+    protected void initSettings(@NotNull GameSettings settings) {
+        settings.setTitle(Const.NAME);
         settings.setVersion("1.0");
-
+        settings.setWidth(Const.SCR_WIDTH);
+        settings.setWidth(Const.SCR_HEIGHT);
     }
 
     @Override
     protected void initGame(){
-        FXGL.getGameWorld().addEntityFactory(new GameFactory());
-        FXGL.setLevelFromMap("naamloos.tmx");
-        FXGL.spawn("Player", new SpawnData(200,500));
+        GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
+//        FXGL.setLevelFromMap("naamloos.tmx");
+        GameWorldController.spawn("Player", new SpawnData(200,500));
         FXGL.getGameTimer().runAtInterval(()-> {
-
         }, Duration.seconds(2));
 
 
@@ -54,7 +56,6 @@ public class Game extends GameApplication {
 
     @Override
     protected void initPhysics(){
-
         FXGL.getPhysicsWorld().setGravity(0,5);
         FXGL.getPhysicsWorld();
 

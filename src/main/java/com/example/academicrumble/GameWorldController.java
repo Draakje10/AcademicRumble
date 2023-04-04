@@ -3,6 +3,7 @@ package com.example.academicrumble;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.GameWorld;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,10 @@ public class GameWorldController {
         PhysicsWorld physics = FXGL.getPhysicsWorld();
         physics.setGravity(gravX, gravY);
         physics.addCollisionHandler(handler);
+    }
+
+    public static void spawn(String name, SpawnData data) {
+        FXGL.spawn(name, data);
     }
 
     @NotNull
