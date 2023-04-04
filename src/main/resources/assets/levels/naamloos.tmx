@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="2">
- <tileset firstgid="1" source="Grond.tsx"/>
+  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="32" tileheight="32" spacing="0" tilecount="1" columns="1">
+   <image source="Grond.png" width="32" height="32"/>
+  </tileset>
  <layer id="1" name="Tilelaag 1" width="40" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -26,7 +28,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objectlaag 1">
-  <object id="1" type="WALL" x="0" y="544">
+  <object id="1" type="Wall" x="0" y="544">
    <polyline points="0,0 0,96 1280,96 1280,0 0,0"/>
   </object>
  </objectgroup>
