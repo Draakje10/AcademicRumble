@@ -20,7 +20,7 @@ public class Fighter extends Sprite {
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
+        physics.setFixtureDef(new FixtureDef().friction(30).density(0.1f));
         BodyDef bd = new BodyDef();
         bd.setFixedRotation(true);
         bd.setType(BodyType.DYNAMIC);
@@ -42,7 +42,7 @@ public class Fighter extends Sprite {
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
+        physics.setFixtureDef(new FixtureDef().friction(30).density(0.1f));
         BodyDef bd = new BodyDef();
         bd.setFixedRotation(true);
         bd.setType(BodyType.DYNAMIC);
