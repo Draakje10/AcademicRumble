@@ -15,6 +15,7 @@ public class Fighter extends Sprite {
 
     private final EntityTypes type;
 
+
     public <T extends Component> Fighter(Point2D pos, EntityTypes type, T component) {
         super("", pos);
         this.type = type;
