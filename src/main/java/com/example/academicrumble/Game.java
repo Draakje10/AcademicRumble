@@ -26,6 +26,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
+        settings.setSceneFactory(new MySceneFactory());
         settings.setMainMenuEnabled(true);
         settings.setTitle(Const.NAME);
         settings.setVersion("1.0");
