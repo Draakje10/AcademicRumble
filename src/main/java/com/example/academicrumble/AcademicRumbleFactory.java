@@ -50,7 +50,7 @@ public class AcademicRumbleFactory implements EntityFactory {
         wall.setEntity(
             FXGL.entityBuilder(data)
                 .from(data)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(40 * 32, 20 * 32)))
                 .with(new PhysicsComponent())
                 .build()
         );

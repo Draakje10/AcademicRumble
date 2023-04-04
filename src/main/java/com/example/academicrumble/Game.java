@@ -35,8 +35,8 @@ public class Game extends GameApplication {
     @Override
     protected void initGame(){
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-//        FXGL.setLevelFromMap("naamloos.tmx");
-        GameWorldController.spawn("Player", new SpawnData(200,500));
+        FXGL.setLevelFromMap("naamloos.tmx");
+        GameWorldController.spawn("Player", new SpawnData(200,200));
         GameWorldController.spawn("Enemy", new SpawnData(400,200));
         FXGL.getGameTimer().runAtInterval(()-> {
         }, Duration.seconds(2));
