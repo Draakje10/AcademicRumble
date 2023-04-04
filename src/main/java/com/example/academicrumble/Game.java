@@ -15,14 +15,9 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import static com.example.academicrumble.utils.getPlayer;
+
 public class Game extends GameApplication {
-
-
-    @NotNull
-    private static Entity getPlayer() {
-        return FXGL.getGameWorld().getSingleton(EntityTypes.PLAYER);
-    }
-
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setTitle(Const.NAME);
@@ -34,31 +29,28 @@ public class Game extends GameApplication {
     @Override
     protected void initGame(){
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-        FXGL.setLevelFromMap("naamloos.tmx");
+//        FXGL.setLevelFromMap("naamloos.tmx");
         GameWorldController.spawn("Player", new SpawnData(200,500));
         FXGL.getGameTimer().runAtInterval(()-> {
         }, Duration.seconds(2));
 
-
     }
     @Override
     protected void initInput(){
-        FXGL.onKey(KeyCode.D,() -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityX(5);
-        });
-        FXGL.onKey(KeyCode.A,() -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-5);
-        });
-        FXGL.onKeyDown(KeyCode.SPACE, () -> {
-            getPlayer().getComponent(PhysicsComponent.class).setVelocityY(10);
-        });
+        FXGL.onKey(KeyCode.A, "Move Left", () ->
+                getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
+        FXGL.onKey(KeyCode.D, "Move Right", () ->
+                getPlayer().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
+        FXGL.onKey(KeyCode.W, "Move Up", () ->
+                getPlayer().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
+        FXGL.onKey(KeyCode.S, "Move Down", () ->
+                getPlayer().getComponent(PhysicsComponent.class).setVelocityY(Const.SPEED));
     }
 
     @Override
     protected void initPhysics(){
         FXGL.getPhysicsWorld().setGravity(0,5);
         FXGL.getPhysicsWorld();
-
     }
 
     public static void main(String[] args) {

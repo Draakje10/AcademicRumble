@@ -24,6 +24,7 @@ public class Fighter extends Sprite {
                 .viewWithBBox(this.path)
                 .with(physics)
                 .type(EntityTypes.PLAYER)
+                .collidable()
                 .build();
     }
 
@@ -43,6 +44,7 @@ public class Fighter extends Sprite {
                 .scale(this.scale)
                 .with(physics)
                 .type(EntityTypes.PLAYER)
+                .collidable()
                 .build();
     }
 }

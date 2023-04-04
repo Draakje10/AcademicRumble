@@ -40,10 +40,14 @@ public class AcademicRumbleFactory implements EntityFactory {
 
     @Spawns("Wall")
     public Entity spawnWall(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        Sprite wall = new Sprite();
+        wall.setEntity(
+            FXGL.entityBuilder(data)
                 .type(EntityTypes.WALL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
-                .build();
+                .build()
+        );
+        return wall.getEntity();
     }
 }
