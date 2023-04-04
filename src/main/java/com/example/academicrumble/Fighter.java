@@ -23,6 +23,7 @@ public class Fighter extends Sprite {
                 .at(this.pos)
                 .viewWithBBox(this.path)
                 .with(physics)
+                .type(EntityTypes.PLAYER)
                 .build();
     }
 
@@ -41,6 +42,7 @@ public class Fighter extends Sprite {
                 .viewWithBBox(this.path)
                 .scale(this.scale)
                 .with(physics)
+                .type(EntityTypes.PLAYER)
                 .build();
     }
 }
