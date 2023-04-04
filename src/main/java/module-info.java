@@ -4,7 +4,7 @@ module com.example.academicrumble {
 
     requires com.almasb.fxgl.all;
     requires annotations;
-
+    opens assets.textures;
     opens com.example.academicrumble to javafx.fxml;
     exports com.example.academicrumble;
 }
