@@ -6,7 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.entity.level.tiled.TiledMap;
 import com.almasb.fxgl.physics.CollisionHandler;
@@ -31,11 +30,10 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame(){
-        TiledMap tiledMap = FXGL.getAssetLoader().loadJSON("naamloos.json", TiledMap.class);
+
 
         FXGL.getGameWorld().addEntityFactory(new GameFactory());
-
-
+        FXGL.setLevelFromMap("tmx/naamloos.tmx");
         FXGL.spawn("Player", new SpawnData(200,500));
         FXGL.getGameTimer().runAtInterval(()-> {
 
