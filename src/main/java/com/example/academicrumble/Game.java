@@ -26,6 +26,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
+        settings.setMainMenuEnabled(true);
         settings.setTitle(Const.NAME);
         settings.setVersion("1.0");
         settings.setWidth(Const.SCR_WIDTH);
@@ -52,7 +53,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(0,5);
+        FXGL.getPhysicsWorld().setGravity(0,98);
         FXGL.getPhysicsWorld();
 
     }
