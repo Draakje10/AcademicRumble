@@ -35,7 +35,7 @@ public class AcademicRumbleFactory implements EntityFactory {
 
         return FXGL.entityBuilder(data)
                 .type(EntityTypes.PLAYER)
-                .viewWithBBox("assets/textures/char.png")
+                .viewWithBBox("char.png")
                 .with(physics)
                 .build();
     }
