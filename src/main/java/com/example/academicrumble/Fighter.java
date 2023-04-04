@@ -28,7 +28,6 @@ public class Fighter extends Sprite {
 
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
-//                .viewWithBBox(this.path)
                 .with(physics)
                 .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
                 .with(component)
@@ -50,7 +49,6 @@ public class Fighter extends Sprite {
 
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
-//                .viewWithBBox(this.path)
                 .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
                 .with(physics)
                 .with(component)
