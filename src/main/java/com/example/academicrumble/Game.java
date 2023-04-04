@@ -1,111 +1,72 @@
-package com.example.academicrumble;
+package com.example.testgame2;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
-import com.almasb.fxgl.entity.level.tiled.TiledMap;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.util.Duration;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-
-import static com.example.academicrumble.utils.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Game extends GameApplication {
 
-    public boolean isColliding;
-
-
     @Override
-    protected void initSettings(@NotNull GameSettings settings) {
-        settings.setTitle(Const.NAME);
-        settings.setVersion("1.0");
-        settings.setWidth(Const.SCR_WIDTH);
-        settings.setHeight(Const.SCR_HEIGHT);
+    protected void initSettings(GameSettings settings) {
+        settings.setWidth(800);
+        settings.setHeight(600);
+        settings.setTitle("Inloggen");
     }
 
     @Override
-    protected void initGameVars(Map<String, Object> vars) {
-        vars.put("enemyHealth", 100);
-        vars.put("playerHealth", 100);
+    protected void initGame() {
+        //BackgroundImage backgroundImage = new BackgroundImage(
+                //new Image("background.jpg", 800, 600, false, true),
+                //BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        //Background background = new Background(backgroundImage);
 
-    }
+        //FXGL.getGameScene().setBackground(background);
 
-    protected void initUI() {
-        var PH = FXGL.getUIFactoryService().newText("", Color.BLACK, 24);
-        var EH = FXGL.getUIFactoryService().newText("", Color.BLACK, 24);
+        GridPane grid = new GridPane();
+        grid.setMinWidth(500);
+        grid.setMinHeight(500);
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        PH.setTranslateX(50);
-        PH.setTranslateY(50);
-        EH.setTranslateX(1230);
-        EH.setTranslateY(50);
+        Text sceneTitle = new Text("Inloggen");
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(sceneTitle, 0, 0, 2, 1);
 
-        PH.textProperty().bind(FXGL.getip("playerHealth").asString());
-        EH.textProperty().bind(FXGL.getip("enemyHealth").asString());
+        Label userName = new Label("Naam:");
+        grid.add(userName, 0, 1);
 
-        FXGL.addUINode(EH);
-        FXGL.addUINode(PH);
-    }
+        TextField userTextField = new TextField();
+        grid.add(userTextField, 1, 1);
 
-    @Override
-    protected void initGame(){
-        GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-        FXGL.setLevelFromMap("naamloos.tmx");
-        GameWorldController.spawn("Player", new SpawnData(200,200));
-        GameWorldController.spawn("Enemy", new SpawnData(400,200));
-        FXGL.getGameTimer().runAtInterval(()-> {
-        }, Duration.seconds(2));
+        Button btn = new Button("Log in");
+        grid.add(btn, 1, 4);
 
-    }
-    @Override
-    protected void initInput(){
-        FXGL.onKey(KeyCode.A, "Move Left", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
-        FXGL.onKey(KeyCode.D, "Move Right", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
-        FXGL.onKeyDown(KeyCode.SPACE, "Move Up", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
-        FXGL.onKeyDown(KeyCode.TAB, () -> {
-            if (isColliding){
-                FXGL.inc("enemyHealth", -5);
-            }
+        final Text actionTarget = new Text();
+        grid.add(actionTarget, 1, 6);
+
+        btn.setOnAction(e -> {
+            String username = userTextField.getText();
+            System.out.println("Veel plezier " + username);
         });
-        FXGL.onKey(KeyCode.LEFT, "eMove Left", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
-        FXGL.onKey(KeyCode.RIGHT, "eMove Right", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
-        FXGL.onKeyDown(KeyCode.UP, "eMove Up", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
-        FXGL.onKeyDown(KeyCode.SLASH, () -> {
-            if (isColliding){
-                FXGL.inc("playerHealth", -5);
-            }
-        });
-    }
-
-    @Override
-    protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(0,98);
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionBegin(Entity a, Entity b) {
-                isColliding = true;
-            }
-        });
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionEnd(Entity a, Entity b) {
-                isColliding = false;
-            }
-        });
-
+        FXGL.getGameScene().addUINode(grid);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
+
