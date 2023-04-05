@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CharacterSelect extends FXGLMenu{
 
-    private static final int SIZE = FXGL.getAppWidth() / 2 -100;
+    private static final int SIZE = FXGL.getAppHeight() /2 -50;
 
     public CharacterSelect(@NotNull MenuType type) {
         super(type);
@@ -33,9 +33,9 @@ public class CharacterSelect extends FXGLMenu{
         Image image = new Image("assets/textures/background.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(FXGL.getAppWidth());
-        imageView.setFitHeight(FXGL.getAppWidth());
-        imageView.setLayoutX(-100);
-        imageView.setLayoutY(-100);
+        imageView.setFitHeight(FXGL.getAppHeight());
+        imageView.setLayoutX(-370);
+        imageView.setLayoutY(-50);
         Pane pane = new Pane();
         pane.getChildren().add(imageView);
         getContentRoot().setTranslateX(FXGL.getAppWidth() / 2.0 - SIZE);
