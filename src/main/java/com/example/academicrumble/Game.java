@@ -6,18 +6,15 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.Input;
-import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 import java.util.Map;
 
-import static com.example.academicrumble.utils.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Game extends GameApplication {
 
@@ -73,18 +70,19 @@ public class Game extends GameApplication {
     @Override
     protected void initInput(){
         Input input = getInput();
+        Action action = new PlayerAction();
 
-        FighterAction.moveRight("Move Right");
-        FighterAction.addAction(input, KeyCode.D);
+        action.moveRight("Move Right");
+        action.addAction(input, KeyCode.D);
 
-        FighterAction.moveLeft("Move Left");
-        FighterAction.addAction(input, KeyCode.A);
+        action.moveLeft("Move Left");
+        action.addAction(input, KeyCode.A);
 
-        FighterAction.attack("attack");
-        FighterAction.addAction(input, KeyCode.TAB);
+        action.attack("attack");
+        action.addAction(input, KeyCode.TAB);
 
-        FighterAction.upDown("Up Down");
-        FighterAction.addAction(input, KeyCode.SPACE);
+        action.upDown("Up Down");
+        action.addAction(input, KeyCode.SPACE);
 
     }
 

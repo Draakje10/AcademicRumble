@@ -8,16 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.example.academicrumble.utils.getPlayer;
 
-public class FighterAction {
-    private static UserAction action;
-    private static Component component;
-    private static boolean isAttacking = false;
+public class PlayerAction implements Action {
+    private UserAction action;
+    private Component component;
+    private boolean isAttacking = false;
 
-    public static <T extends Component> void init(T component) {
-        FighterAction.component = component;
-    }
-
-    public static void moveLeft(String name) {
+    @Override
+    public void moveLeft(String name) {
         action = new UserAction(name) {
             @Override
             protected void onAction() {
@@ -39,7 +36,8 @@ public class FighterAction {
         };
     }
 
-    public static void moveRight(String name) {
+    @Override
+    public void moveRight(String name) {
         action = new UserAction(name) {
             @Override
             protected void onAction() {
@@ -61,7 +59,8 @@ public class FighterAction {
         };
     }
 
-    public static void upDown(String name) {
+    @Override
+    public void upDown(String name) {
         action = new UserAction(name) {
             @Override
             protected void onAction() {
@@ -82,7 +81,9 @@ public class FighterAction {
         };
     }
 
-    public static void attack(String name) {
+    @Override
+    public void attack(String name) {
+
         action = new UserAction(name) {
             @Override
             protected void onAction() {
@@ -93,24 +94,25 @@ public class FighterAction {
             protected void onActionBegin() {
                 super.onActionBegin();
                 getPlayer().getComponent(PlayerComponent.class).attack();
-                FighterAction.isAttacking = true;
+                isAttacking = true;
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
                 getPlayer().getComponent(PlayerComponent.class).idle();
-                FighterAction.isAttacking = false;
+                isAttacking = false;
             }
         };
     }
 
-    public static void addAction(@NotNull Input input, KeyCode code) {
+    @Override
+    public void addAction(@NotNull Input input, KeyCode code) {
         input.addAction(action, code);
         action = null;
     }
 
-    public static UserAction getAction() {
+    public UserAction getAction() {
         return action;
     }
 }
