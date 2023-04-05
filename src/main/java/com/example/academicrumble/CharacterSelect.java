@@ -70,7 +70,7 @@ public class CharacterSelect extends FXGLMenu{
                 Bindings.when(bottomLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomLeft.setOnMouseClicked(e -> fireResume());
+        bottomLeft.setOnMouseClicked(e -> getContentRoot().getChildren().removeAll());
         bottomLeft.setTranslateY(SIZE);
         shape.setStrokeWidth(2.5);
         shape.strokeProperty().bind(
