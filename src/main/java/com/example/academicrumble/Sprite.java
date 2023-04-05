@@ -22,6 +22,16 @@ public class Sprite {
         this.scale = null;
     }
 
+
+    public Sprite(Point2D pos) {
+        this.path = null;
+        this.pos = pos;
+        this.entity = FXGL.entityBuilder()
+                .at(this.pos)
+                .build();
+        scale = null;
+    }
+
     public Sprite(String path, Point2D pos) {
         this.path = path;
         this.pos = pos;

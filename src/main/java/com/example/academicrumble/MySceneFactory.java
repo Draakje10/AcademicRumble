@@ -27,8 +27,4 @@ public class MySceneFactory extends SceneFactory {
         return new CharacterSelect(MenuType.MAIN_MENU);
     }
 
-//    @Override
-//    public FXGLMenu newGameMenu() {
-//        return new MyMenu(MenuType.GAME_MENU);
-//    }
 }

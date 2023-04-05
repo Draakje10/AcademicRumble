@@ -37,8 +37,26 @@ public class AcademicRumbleFactory implements EntityFactory {
         Sprite player = new Fighter(
                 new Point2D(data.getX(), data.getY()),
                 EntityTypes.PLAYER,
-                BoundingShape.box(30, 30),
-                new PlayerComponent(data.getX(), data.getY())
+                BoundingShape.box(30, 60),
+                new FighterComponent(
+                        new String[]{
+                                "player/Idle.png",
+                                "player/Run.png",
+                                "player/Run.png",
+                                "player/Jump.png",
+                                "player/Attack1.png",
+                        },
+                        new int[]{
+                                8,
+                                8,
+                                8,
+                                2,
+                                6
+                        },
+                        EntityTypes.PLAYER,
+                        data.getX(),
+                        data.getY()
+                )
         );
         return player.getEntity();
     }
@@ -48,8 +66,26 @@ public class AcademicRumbleFactory implements EntityFactory {
         Sprite enemy = new Fighter(
                 new Point2D(data.getX(), data.getY()),
                 EntityTypes.ENEMY,
-                BoundingShape.box(30, 30),
-                new EnemyComponent(data.getX(), data.getY())
+                BoundingShape.box(30, 60),
+                new FighterComponent(
+                        new String[]{
+                                "enemy/Idle.png",
+                                "enemy/Run.png",
+                                "enemy/Run.png",
+                                "enemy/Jump.png",
+                                "enemy/Attack1.png",
+                        },
+                        new int[]{
+                                4,
+                                8,
+                                8,
+                                2,
+                                4
+                        },
+                        EntityTypes.ENEMY,
+                        data.getX(),
+                        data.getY()
+                )
 
         );
         return enemy.getEntity();

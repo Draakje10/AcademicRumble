@@ -9,16 +9,18 @@ import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import static com.example.academicrumble.Const.SPEED;
 
 @SuppressWarnings("unused")
-public class PlayerComponent extends Component implements CharacterComponent {
+public class FighterComponent extends Component implements CharacterComponent {
 
     private final double x;
     private final double y;
 
     private AnimatedTexture texture;
+    private final EntityTypes type;
     private final AnimationChannel idle;
     private final AnimationChannel left;
     private final AnimationChannel right;
@@ -29,14 +31,15 @@ public class PlayerComponent extends Component implements CharacterComponent {
 
     public PhysicsComponent physics;
 
-    public PlayerComponent(double x, double y) {
+    public FighterComponent(@NotNull String[] animations, @NotNull int[] maxFrames, EntityTypes type, double x, double y) {
         this.x = x;
         this.y = y;
-        idle = new AnimationChannel(FXGL.image("player/Idle.png"), Duration.seconds(0.5), 8);
-        left = new AnimationChannel(FXGL.image("player/Run.png"), Duration.seconds(0.5), 8);
-        right = new AnimationChannel(FXGL.image("player/Run.png"), Duration.seconds(0.5), 8);
-        upDown = new AnimationChannel(FXGL.image("player/Jump.png"), Duration.seconds(0.5), 2);
-        attack = new AnimationChannel(FXGL.image("player/attack1.png"), Duration.seconds(0.5), 6);
+        this.type = type;
+        idle = new AnimationChannel(FXGL.image(animations[0]), Duration.seconds(0.5), maxFrames[0]);
+        left = new AnimationChannel(FXGL.image(animations[1]), Duration.seconds(0.5), maxFrames[1]);
+        right = new AnimationChannel(FXGL.image(animations[2]), Duration.seconds(0.5), maxFrames[2]);
+        upDown = new AnimationChannel(FXGL.image(animations[3]), Duration.seconds(0.5), maxFrames[3]);
+        attack = new AnimationChannel(FXGL.image(animations[4]), Duration.seconds(0.5), maxFrames[4]);
         texture = new AnimatedTexture(upDown);
     }
 
@@ -48,18 +51,28 @@ public class PlayerComponent extends Component implements CharacterComponent {
 
     @Override
     public void attack() {
-        System.out.println("attack");
         attacking = true;
         texture.playAnimationChannel(attack);
         Point2D enemyPos = utils.getEnemy().getPosition();
         Point2D playerPos = utils.getPlayer().getPosition();
-        System.out.println(playerPos.subtract(enemyPos));
-        if(playerPos.distance(enemyPos) < 140) {
-            Vec2 dir = new Vec2(playerPos.subtract(enemyPos).normalize()).mul(25);
-            dir.x = -dir.x;
-            physics.applyBodyForceToCenter(dir);
-            FXGL.inc("enemyHealth", -5);
+//        System.out.println(enemyPos);
+        if (this.type == EntityTypes.PLAYER) {
+            if (playerPos.distance(enemyPos) < 140) {
+                Vec2 dir = new Vec2(playerPos.subtract(enemyPos).normalize()).mul(25);
+                dir.x = -dir.x;
+                physics.applyBodyForceToCenter(dir);
+                FXGL.inc("enemyHealth", -5);
+            }
         }
+        else if (this.type == EntityTypes.ENEMY) {
+            if (enemyPos.distance(playerPos) < 140) {
+                Vec2 dir = new Vec2(enemyPos.subtract(playerPos).normalize()).mul(25);
+                dir.x = -dir.x;
+                physics.applyBodyForceToCenter(dir);
+                FXGL.inc("playerHealth", -5);
+            }
+        }
+
         texture.setOnCycleFinished(() -> {
             attacking = false;
             texture.loopAnimationChannel(idle);
@@ -92,11 +105,9 @@ public class PlayerComponent extends Component implements CharacterComponent {
 
     @Override
     public void up() {
-//        physics.setVelocityY(-SPEED);
         if (physics.getVelocityY() == 0) {
             System.out.println("ground");
             physics.applyBodyForceToCenter(new Vec2(0, 15));
-//            isJumping = false;
         }
         if (texture.getAnimationChannel() != upDown  && !attacking) {
             texture.loopAnimationChannel(upDown);
