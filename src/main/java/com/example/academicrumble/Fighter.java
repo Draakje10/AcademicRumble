@@ -37,6 +37,7 @@ public class Fighter extends Sprite {
                 .bbox(new HitBox(shape)) // Add new bbox size
                 .with(component)
                 .type(this.type)
+                .scale(3, 3)
                 .collidable()
                 .build();
     }

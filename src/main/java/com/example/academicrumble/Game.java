@@ -32,7 +32,7 @@ public class Game extends GameApplication {
     protected void initGameVars(@NotNull Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
-        vars.put("GameTime", 0);
+        vars.put("GameTime", 1);
 
     }
 
@@ -111,7 +111,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(0,150);
+        FXGL.getPhysicsWorld().setGravity(Const.GRAVITY.getX(), Const.GRAVITY.getY());
 //        FXGL.getGameTimer().runAtInterval(() -> {
 //        },Duration.seconds(1));
 //        FXGL.getPhysicsWorld().setGravity(0,400);
