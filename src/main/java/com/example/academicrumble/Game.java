@@ -24,7 +24,6 @@ public class Game extends GameApplication {
 
     public boolean isColliding;
 
-
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setTitle(Const.NAME);
@@ -37,23 +36,29 @@ public class Game extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
+        vars.put("GameTime", 0);
 
     }
 
     protected void initUI() {
         var PH = FXGL.getUIFactoryService().newText("", Color.BLACK, 24);
         var EH = FXGL.getUIFactoryService().newText("", Color.BLACK, 24);
+        var GT = FXGL.getUIFactoryService().newText("", Color.BLACK, 24);
 
         PH.setTranslateX(50);
         PH.setTranslateY(50);
         EH.setTranslateX(1230);
         EH.setTranslateY(50);
+        GT.setTranslateX(1230);
+        GT.setTranslateY(590);
 
         PH.textProperty().bind(FXGL.getip("playerHealth").asString());
         EH.textProperty().bind(FXGL.getip("enemyHealth").asString());
+        GT.textProperty().bind(FXGL.getip("GameTime").asString());
 
         FXGL.addUINode(EH);
         FXGL.addUINode(PH);
+        FXGL.addUINode(GT);
     }
 
     @Override
@@ -89,6 +94,9 @@ public class Game extends GameApplication {
     @Override
     protected void initPhysics(){
         FXGL.getPhysicsWorld().setGravity(0,98);
+        FXGL.getGameTimer().runAtInterval(() -> {
+
+        },Duration.seconds(1));
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
