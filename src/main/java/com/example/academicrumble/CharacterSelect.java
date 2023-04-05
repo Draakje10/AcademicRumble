@@ -1,15 +1,8 @@
 package com.example.academicrumble;
 
-import com.almasb.fxgl.animation.Animation;
-import com.almasb.fxgl.animation.Interpolators;
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
-import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.core.util.EmptyRunnable;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
@@ -23,11 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
-public class CharacterSelect extends FXGLMenu{
+public class CharacterSelect extends FXGLMenu {
 
     private static final int SIZE = FXGL.getAppHeight() /2 -100;
     private TextField usernameField;
@@ -59,11 +50,11 @@ public class CharacterSelect extends FXGLMenu{
         usernameText.setTranslateY(-120);
         usernameText.setMouseTransparent(true);
 
-        var shape = Shape.subtract(new Circle(SIZE, SIZE, SIZE), new Rectangle(0, SIZE, SIZE*2, SIZE));
+        var topLeft = Shape.subtract(new Circle(SIZE, SIZE, SIZE), new Rectangle(0, SIZE, SIZE*2, SIZE));
 
-        var shape2 = Shape.subtract(shape, new Rectangle(0, 0, SIZE, SIZE));
+        var topRight = Shape.subtract(topLeft, new Rectangle(0, 0, SIZE, SIZE));
 
-        shape = Shape.subtract(shape, new Rectangle(SIZE, 0, SIZE, SIZE));
+        topLeft = Shape.subtract(topLeft, new Rectangle(SIZE, 0, SIZE, SIZE));
 
         var bottom = Shape.subtract(new Circle(SIZE, 0, SIZE), new Rectangle(0, -SIZE, SIZE*2, SIZE));
         var bottomRight = Shape.subtract(bottom, new Rectangle(0, 0, SIZE, SIZE));
@@ -76,8 +67,12 @@ public class CharacterSelect extends FXGLMenu{
                 Bindings.when(bottomRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomRight.setOnMouseClicked(e -> getController().startNewGame());
+        bottomRight.setOnMouseClicked(e -> {
+            Globals.selectionFlag = 1;
+            getController().startNewGame();
+        });
         bottomRight.setTranslateY(SIZE);
+
         var bottomLeft = Shape.subtract(bottom, new Rectangle(SIZE, 0, SIZE, SIZE));
         bottomLeft.setStrokeWidth(2.5);
         bottomLeft.strokeProperty().bind(
@@ -88,28 +83,37 @@ public class CharacterSelect extends FXGLMenu{
                 Bindings.when(bottomLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomLeft.setOnMouseClicked(e -> getContentRoot().getChildren().removeAll());
+        bottomLeft.setOnMouseClicked(e -> {
+            Globals.selectionFlag = 2;
+            getController().startNewGame();
+        });
         bottomLeft.setTranslateY(SIZE);
-        shape.setStrokeWidth(2.5);
-        shape.strokeProperty().bind(
-                Bindings.when(shape.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)
+        topLeft.setStrokeWidth(2.5);
+        topLeft.strokeProperty().bind(
+                Bindings.when(topLeft.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)
         );
 
-        shape.fillProperty().bind(
-                Bindings.when(shape.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
+        topLeft.fillProperty().bind(
+                Bindings.when(topLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        shape.setOnMouseClicked(e -> fireResume());
+        topLeft.setOnMouseClicked(e -> {
+            Globals.selectionFlag = 3;
+            getController().startNewGame();
+        });
 
-        shape2.setStrokeWidth(2.5);
-        shape2.strokeProperty().bind(
-                Bindings.when(shape2.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)
+        topRight.setStrokeWidth(2.5);
+        topRight.strokeProperty().bind(
+                Bindings.when(topRight.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)
         );
 
-        shape2.fillProperty().bind(
-                Bindings.when(shape2.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
+        topRight.fillProperty().bind(
+                Bindings.when(topRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
-        shape2.setOnMouseClicked(e -> FXGL.getGameController().exit());
+        topRight.setOnMouseClicked(e -> {
+            Globals.selectionFlag = 4;
+            getController().startNewGame();
+        });
 
 //        var shape3 = new Rectangle(SIZE*2, SIZE / 2);
 //        shape3.setStrokeWidth(2.5);
@@ -138,6 +142,6 @@ public class CharacterSelect extends FXGLMenu{
 //        textOptions.setTranslateY(195);
 //        textOptions.setMouseTransparent(true);
 
-        getContentRoot().getChildren().addAll(pane,shape, shape2, bottomRight,bottomLeft, usernameText,usernameField);
+        getContentRoot().getChildren().addAll(pane, topLeft, topRight, bottomRight,bottomLeft, usernameText,usernameField);
     }
 }

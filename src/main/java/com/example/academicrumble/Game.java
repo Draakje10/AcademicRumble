@@ -18,8 +18,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Game extends GameApplication {
 
-    public boolean isColliding;
-
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setSceneFactory(new MySceneFactory());
@@ -31,10 +29,10 @@ public class Game extends GameApplication {
     }
 
     @Override
-    protected void initGameVars(Map<String, Object> vars) {
+    protected void initGameVars(@NotNull Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
-        vars.put("GameTime", 60);
+        vars.put("GameTime", 0);
 
     }
 
@@ -61,11 +59,20 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame(){
+        System.out.println(Globals.selectionFlag);
+
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-        GameWorldController.loadTilemap("naamloos.tmx");
-        GameWorldController.spawn("Player", new SpawnData(450,200));
-        GameWorldController.spawn("Enemy", new SpawnData(400,200));
-        FXGL.getGameTimer().runAtInterval(()-> {}, Duration.seconds(2));
+
+        switch (Globals.selectionFlag) {
+            case 1 -> GameWorldController.loadTilemap("hallwaylvl1.tmx");
+            case 2 -> GameWorldController.loadTilemap("classroomlvl2.tmx");
+            case 3 -> GameWorldController.loadTilemap("gymlvl3.tmx");
+            case 4 -> GameWorldController.loadTilemap("oudsidelvl4.tmx");
+        }
+
+        GameWorldController.spawn("Player", new SpawnData(200,200));
+        GameWorldController.spawn("Enemy", new SpawnData(800,200));
+        FXGL.getGameTimer().runAtInterval(()-> {FXGL.inc("GameTime" , 1);}, Duration.seconds(1));
 
     }
 
@@ -104,23 +111,10 @@ public class Game extends GameApplication {
 
     @Override
     protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(0,500);
-        FXGL.getGameTimer().runAtInterval(() -> {
-        },Duration.seconds(1));
+        FXGL.getPhysicsWorld().setGravity(0,150);
+//        FXGL.getGameTimer().runAtInterval(() -> {
+//        },Duration.seconds(1));
 //        FXGL.getPhysicsWorld().setGravity(0,400);
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionBegin(Entity a, Entity b) {
-                isColliding = true;
-            }
-        });
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionEnd(Entity a, Entity b) {
-                isColliding = false;
-            }
-        });
-
     }
 
     public static void main(String[] args) {

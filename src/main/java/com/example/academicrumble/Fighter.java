@@ -21,7 +21,7 @@ public class Fighter extends Sprite {
             BoundingShape shape,
             T component
     ) {
-        super("", pos);
+        super(pos);
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
@@ -48,7 +48,7 @@ public class Fighter extends Sprite {
             BoundingShape shape,
             T component
     ) {
-        super("", pos, scale);
+        super(pos);
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();

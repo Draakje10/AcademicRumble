@@ -7,6 +7,7 @@ module com.example.academicrumble {
     opens assets.textures;
     opens assets.levels;
     opens assets.textures.player;
+    opens assets.textures.enemy;
     opens com.example.academicrumble to javafx.fxml;
     exports com.example.academicrumble;
 }

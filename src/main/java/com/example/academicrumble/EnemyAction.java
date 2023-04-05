@@ -9,7 +9,6 @@ import static com.example.academicrumble.Utils.getEnemy;
 
 public class EnemyAction implements Action {
     private UserAction action;
-    private boolean isAttacking = false;
 
     @Override
     public void moveLeft(String name) {
@@ -17,19 +16,19 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getEnemy().getComponent(EnemyComponent.class).left();
+                getEnemy().getComponent(FighterComponent.class).left();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getEnemy().getComponent(EnemyComponent.class).left();
+                getEnemy().getComponent(FighterComponent.class).left();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getEnemy().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(FighterComponent.class).idle();
             }
         };
     }
@@ -40,19 +39,19 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getEnemy().getComponent(EnemyComponent.class).right();
+                getEnemy().getComponent(FighterComponent.class).right();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getEnemy().getComponent(EnemyComponent.class).right();
+                getEnemy().getComponent(FighterComponent.class).right();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getEnemy().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(FighterComponent.class).idle();
             }
         };
     }
@@ -63,7 +62,7 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getEnemy().getComponent(EnemyComponent.class).up();
+                getEnemy().getComponent(FighterComponent.class).up();
             }
 
             @Override
@@ -74,7 +73,7 @@ public class EnemyAction implements Action {
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getEnemy().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(FighterComponent.class).idle();
             }
         };
     }
@@ -91,15 +90,12 @@ public class EnemyAction implements Action {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getEnemy().getComponent(EnemyComponent.class).attack();
-                isAttacking = true;
+                getEnemy().getComponent(FighterComponent.class).attack();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getEnemy().getComponent(EnemyComponent.class).idle();
-                isAttacking = false;
             }
         };
     }
