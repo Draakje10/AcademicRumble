@@ -34,7 +34,7 @@ public class Game extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
-        vars.put("GameTime", 0);
+        vars.put("GameTime", 60);
 
     }
 
@@ -47,8 +47,8 @@ public class Game extends GameApplication {
         PH.setTranslateY(50);
         EH.setTranslateX(1230);
         EH.setTranslateY(50);
-        GT.setTranslateX(1230);
-        GT.setTranslateY(590);
+        GT.setTranslateX(600);
+        GT.setTranslateY(50);
 
         PH.textProperty().bind(FXGL.getip("playerHealth").asString());
         EH.textProperty().bind(FXGL.getip("enemyHealth").asString());
@@ -72,28 +72,42 @@ public class Game extends GameApplication {
     @Override
     protected void initInput(){
         Input input = getInput();
-        Action action = new PlayerAction();
+        Action pAction = new PlayerAction();
 
-        action.moveRight("Move Right");
-        action.addAction(input, KeyCode.D);
+        pAction.moveRight("Player Move Right");
+        pAction.addAction(input, KeyCode.D);
 
-        action.moveLeft("Move Left");
-        action.addAction(input, KeyCode.A);
+        pAction.moveLeft("Player Move Left");
+        pAction.addAction(input, KeyCode.A);
 
-        action.attack("attack");
-        action.addAction(input, KeyCode.TAB);
+        pAction.attack("Player Attack");
+        pAction.addAction(input, KeyCode.TAB);
 
-        action.upDown("Up Down");
-        action.addAction(input, KeyCode.SPACE);
+        pAction.upDown("Player Up Down");
+        pAction.addAction(input, KeyCode.SPACE);
+
+        Action eAction = new EnemyAction();
+
+        eAction.moveRight("Enemy Move Right");
+        eAction.addAction(input, KeyCode.RIGHT);
+
+        eAction.moveLeft("Enemy Move Left");
+        eAction.addAction(input, KeyCode.LEFT);
+
+        eAction.attack("Enemy Attack");
+        eAction.addAction(input, KeyCode.SLASH);
+
+        eAction.upDown("Enemy Up Down");
+        eAction.addAction(input, KeyCode.UP);
 
     }
 
     @Override
     protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(0,98);
+        FXGL.getPhysicsWorld().setGravity(0,500);
         FXGL.getGameTimer().runAtInterval(() -> {
         },Duration.seconds(1));
-        FXGL.getPhysicsWorld().setGravity(0,400);
+//        FXGL.getPhysicsWorld().setGravity(0,400);
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {

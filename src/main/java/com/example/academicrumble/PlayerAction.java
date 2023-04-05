@@ -12,7 +12,7 @@ public class PlayerAction implements Action {
     private UserAction action;
     private boolean isAttacking = false;
 
-    @Override
+    //@Override
     public void moveLeft(String name) {
         action = new UserAction(name) {
             @Override
@@ -35,7 +35,7 @@ public class PlayerAction implements Action {
         };
     }
 
-    @Override
+    //@Override
     public void moveRight(String name) {
         action = new UserAction(name) {
             @Override
@@ -58,7 +58,7 @@ public class PlayerAction implements Action {
         };
     }
 
-    @Override
+    //@Override
     public void upDown(String name) {
         action = new UserAction(name) {
             @Override
@@ -80,7 +80,7 @@ public class PlayerAction implements Action {
         };
     }
 
-    @Override
+    //@Override
     public void attack(String name) {
 
         action = new UserAction(name) {

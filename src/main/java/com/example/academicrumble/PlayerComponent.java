@@ -13,7 +13,7 @@ import javafx.util.Duration;
 import static com.example.academicrumble.Const.SPEED;
 
 @SuppressWarnings("unused")
-public class PlayerComponent extends Component {
+public class PlayerComponent extends Component implements CharacterComponent {
 
     private final double x;
     private final double y;
@@ -46,15 +46,7 @@ public class PlayerComponent extends Component {
         texture.loopAnimationChannel(idle);
     }
 
-//    @Override
-//    public void onUpdate(double tpf) {
-//        super.onUpdate(tpf);
-//    }
-
-    public void onUpdate() {
-
-    }
-
+    @Override
     public void attack() {
         System.out.println("attack");
         attacking = true;
@@ -74,6 +66,7 @@ public class PlayerComponent extends Component {
         });
     }
 
+    @Override
     public void idle() {
         physics.setVelocityX(0);
         if (texture.getAnimationChannel() != idle && !attacking) {
@@ -81,6 +74,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void left() {
         physics.setVelocityX(-SPEED);
         if (texture.getAnimationChannel() != left  && !attacking) {
@@ -88,6 +82,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void right() {
         physics.setVelocityX(SPEED);
         if (texture.getAnimationChannel() != right  && !attacking) {
@@ -95,6 +90,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void up() {
 //        physics.setVelocityY(-SPEED);
         if (physics.getVelocityY() == 0) {
@@ -107,6 +103,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void down() {
         physics.setVelocityY(SPEED);
         if (texture.getAnimationChannel() != upDown  && !attacking) {
@@ -114,6 +111,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void respawn() {
         entity.removeFromWorld();
         GameWorldController.spawn("Player", new SpawnData(x, y));
