@@ -5,7 +5,7 @@ import com.almasb.fxgl.input.UserAction;
 import javafx.scene.input.KeyCode;
 import org.jetbrains.annotations.NotNull;
 
-import static com.example.academicrumble.utils.getEnemy;
+import static com.example.academicrumble.Utils.getEnemy;
 
 public class EnemyAction implements Action {
     private UserAction action;

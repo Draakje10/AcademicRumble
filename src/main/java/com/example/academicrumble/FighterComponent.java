@@ -53,8 +53,9 @@ public class FighterComponent extends Component implements CharacterComponent {
     public void attack() {
         attacking = true;
         texture.playAnimationChannel(attack);
-        Point2D enemyPos = utils.getEnemy().getPosition();
-        Point2D playerPos = utils.getPlayer().getPosition();
+        Point2D enemyPos = Utils.getEnemy().getPosition();
+        Point2D playerPos = Utils.getPlayer().getPosition();
+//        System.out.println(enemyPos);
         if (this.type == EntityTypes.PLAYER) {
             if (playerPos.distance(enemyPos) < 300) {
                 Vec2 dir = new Vec2(playerPos.subtract(enemyPos).normalize()).mul(LUNGE);

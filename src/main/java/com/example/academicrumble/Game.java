@@ -18,6 +18,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Game extends GameApplication {
 
+    public boolean isColliding;
+
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setSceneFactory(new MySceneFactory());
@@ -29,10 +31,14 @@ public class Game extends GameApplication {
     }
 
     @Override
-    protected void initGameVars(@NotNull Map<String, Object> vars) {
+    protected void initGameVars(Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
         vars.put("GameTime", 1);
+        vars.put("bestName", "");
+        vars.put("bestScore", 0);
+        vars.put("currentName", Globals.username);
+        vars.put("currentScore", 0);
 
     }
 
@@ -59,8 +65,6 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame(){
-        System.out.println(Globals.selectionFlag);
-
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
 
         switch (Globals.selectionFlag) {
@@ -107,6 +111,10 @@ public class Game extends GameApplication {
         eAction.upDown("Enemy Up Down");
         eAction.addAction(input, KeyCode.UP);
 
+        FXGL.onKey(KeyCode.X, () -> {
+            getLeaderboard(true);
+        });
+
     }
 
     @Override
@@ -115,6 +123,39 @@ public class Game extends GameApplication {
 //        FXGL.getGameTimer().runAtInterval(() -> {
 //        },Duration.seconds(1));
 //        FXGL.getPhysicsWorld().setGravity(0,400);
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                isColliding = true;
+            }
+        });
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
+            @Override
+            protected void onCollisionEnd(Entity a, Entity b) {
+                isColliding = false;
+            }
+        });
+
+    }
+
+    private void getLeaderboard(boolean reachedEndOfGame) {
+        if(FXGL.geti("currentScore") == FXGL.geti("bestScore")){
+            FXGL.set("bestScore", FXGL.geti("currentScore"));
+            FXGL.set("bestName", FXGL.gets("currentName"));
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append("Game Over!\n\n");
+        if (reachedEndOfGame) {
+            builder.append("You have reached the end of the game!\n\n");
+        }
+        builder.append("Best score: ")
+                .append(FXGL.gets("bestName") + ": ")
+                .append(FXGL.geti("bestScore"))
+                .append("\nFinal level: ")
+                .append(FXGL.gets("currentName") + ": ")
+                .append(FXGL.geti("currentScore"));
+
+        FXGL.getDialogService().showMessageBox(builder.toString(), () -> FXGL.getGameController().gotoMainMenu());
     }
 
     public static void main(String[] args) {

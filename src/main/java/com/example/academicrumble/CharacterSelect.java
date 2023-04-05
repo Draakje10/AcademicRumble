@@ -3,7 +3,13 @@ package com.example.academicrumble;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -11,25 +17,39 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public class CharacterSelect extends FXGLMenu {
 
-    private static final int SIZE = FXGL.getAppHeight() /2 -50;
+    private static final int SIZE = FXGL.getAppHeight() /2 -100;
+    private TextField usernameField;
 
     public CharacterSelect(@NotNull MenuType type) {
         super(type);
 
+        // BG--------------------------------------------------------
         Image image = new Image("assets/textures/background.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(FXGL.getAppWidth());
         imageView.setFitHeight(FXGL.getAppHeight());
-        imageView.setLayoutX(-370);
-        imageView.setLayoutY(-50);
+        imageView.setLayoutX(-420);
+        imageView.setLayoutY(-FXGL.getAppHeight() / 2.0 + 120);
         Pane pane = new Pane();
         pane.getChildren().add(imageView);
         getContentRoot().setTranslateX(FXGL.getAppWidth() / 2.0 - SIZE);
-        getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE);
+        getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE + 100);
+        // LOGIN ------------------------------------------------------
+
+        usernameField = new TextField();
+//        usernameField.setPrefWidth(SIZE*2);
+        usernameField.setPrefSize(SIZE*2,50);
+        usernameField.setTranslateY(-100);
+
+        Text usernameText = FXGL.getUIFactoryService().newText("USERNAME", Color.WHITE, FontType.GAME, 24.0);
+
+        usernameText.setTranslateY(-120);
+        usernameText.setMouseTransparent(true);
 
         var topLeft = Shape.subtract(new Circle(SIZE, SIZE, SIZE), new Rectangle(0, SIZE, SIZE*2, SIZE));
 
@@ -48,10 +68,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(bottomRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomRight.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 1;
-            getController().startNewGame();
-        });
+        bottomRight.setOnMouseClicked(e -> loadLevel(1,usernameField.getText()));
         bottomRight.setTranslateY(SIZE);
 
         var bottomLeft = Shape.subtract(bottom, new Rectangle(SIZE, 0, SIZE, SIZE));
@@ -64,10 +81,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(bottomLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomLeft.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 2;
-            getController().startNewGame();
-        });
+        bottomLeft.setOnMouseClicked(e -> loadLevel(2,usernameField.getText()));
         bottomLeft.setTranslateY(SIZE);
         topLeft.setStrokeWidth(2.5);
         topLeft.strokeProperty().bind(
@@ -78,10 +92,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(topLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        topLeft.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 3;
-            getController().startNewGame();
-        });
+        topLeft.setOnMouseClicked(e -> loadLevel(3,usernameField.getText()));
 
         topRight.setStrokeWidth(2.5);
         topRight.strokeProperty().bind(
@@ -91,10 +102,7 @@ public class CharacterSelect extends FXGLMenu {
         topRight.fillProperty().bind(
                 Bindings.when(topRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
-        topRight.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 4;
-            getController().startNewGame();
-        });
+        topRight.setOnMouseClicked(e -> loadLevel(4,usernameField.getText()));
 
 //        var shape3 = new Rectangle(SIZE*2, SIZE / 2);
 //        shape3.setStrokeWidth(2.5);
@@ -123,6 +131,16 @@ public class CharacterSelect extends FXGLMenu {
 //        textOptions.setTranslateY(195);
 //        textOptions.setMouseTransparent(true);
 
-        getContentRoot().getChildren().addAll(pane, topLeft, topRight, bottomRight,bottomLeft);
+        getContentRoot().getChildren().addAll(pane, topLeft, topRight, bottomRight,bottomLeft, usernameText,usernameField);
     }
+
+    private void loadLevel(int levelNumb, String username){
+        if(username != ""){
+            Globals.selectionFlag = levelNumb;
+            Globals.username = username;
+            getController().startNewGame();
+            FXGL.set("currentName", username);
+        }
+    }
+
 }
