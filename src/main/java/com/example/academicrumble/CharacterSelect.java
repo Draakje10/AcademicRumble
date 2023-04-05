@@ -12,6 +12,9 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +29,15 @@ public class CharacterSelect extends FXGLMenu{
 
     public CharacterSelect(@NotNull MenuType type) {
         super(type);
+
+        Image image = new Image("assets/textures/background.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(FXGL.getAppWidth());
+        imageView.setFitHeight(FXGL.getAppWidth());
+        imageView.setLayoutX(-100);
+        imageView.setLayoutY(-100);
+        Pane pane = new Pane();
+        pane.getChildren().add(imageView);
         getContentRoot().setTranslateX(FXGL.getAppWidth() / 2.0 - SIZE);
         getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE);
 
@@ -46,7 +58,7 @@ public class CharacterSelect extends FXGLMenu{
                 Bindings.when(bottomRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomRight.setOnMouseClicked(e -> fireResume());
+        bottomRight.setOnMouseClicked(e -> getController().startNewGame());
         bottomRight.setTranslateY(SIZE);
         var bottomLeft = Shape.subtract(bottom, new Rectangle(SIZE, 0, SIZE, SIZE));
         bottomLeft.setStrokeWidth(2.5);
@@ -93,21 +105,21 @@ public class CharacterSelect extends FXGLMenu{
 //
 //        shape3.setTranslateY(SIZE);
 
-        Text textResume = FXGL.getUIFactoryService().newText("RESUME", Color.WHITE, FontType.GAME, 24.0);
-        textResume.setTranslateX(50);
-        textResume.setTranslateY(100);
-        textResume.setMouseTransparent(true);
+//        Text textResume = FXGL.getUIFactoryService().newText("RESUME", Color.WHITE, FontType.GAME, 24.0);
+//        textResume.setTranslateX(50);
+//        textResume.setTranslateY(100);
+//        textResume.setMouseTransparent(true);
+//
+//        Text textExit = FXGL.getUIFactoryService().newText("EXIT", Color.WHITE, FontType.GAME, 24.0);
+//        textExit.setTranslateX(200);
+//        textExit.setTranslateY(100);
+//        textExit.setMouseTransparent(true);
+//
+//        Text textOptions = FXGL.getUIFactoryService().newText("OPTIONS", Color.WHITE, FontType.GAME, 24.0);
+//        textOptions.setTranslateX(110);
+//        textOptions.setTranslateY(195);
+//        textOptions.setMouseTransparent(true);
 
-        Text textExit = FXGL.getUIFactoryService().newText("EXIT", Color.WHITE, FontType.GAME, 24.0);
-        textExit.setTranslateX(200);
-        textExit.setTranslateY(100);
-        textExit.setMouseTransparent(true);
-
-        Text textOptions = FXGL.getUIFactoryService().newText("OPTIONS", Color.WHITE, FontType.GAME, 24.0);
-        textOptions.setTranslateX(110);
-        textOptions.setTranslateY(195);
-        textOptions.setMouseTransparent(true);
-
-        getContentRoot().getChildren().addAll(shape, shape2, bottomRight,bottomLeft, textResume, textExit, textOptions);
+        getContentRoot().getChildren().addAll(pane,shape, shape2, bottomRight,bottomLeft);
     }
 }
