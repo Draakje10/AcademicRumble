@@ -7,5 +7,6 @@ public interface CharacterComponent {
     void right();
     void up();
     void down();
+    void death();
     void respawn();
 }

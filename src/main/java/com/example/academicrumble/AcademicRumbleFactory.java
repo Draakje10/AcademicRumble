@@ -45,12 +45,14 @@ public class AcademicRumbleFactory implements EntityFactory {
                                 "player/Run.png",
                                 "player/Jump.png",
                                 "player/Attack1.png",
+                                "player/Death.png",
                         },
                         new int[]{
                                 8,
                                 8,
                                 8,
                                 2,
+                                6,
                                 6
                         },
                         EntityTypes.PLAYER,
@@ -74,13 +76,15 @@ public class AcademicRumbleFactory implements EntityFactory {
                                 "enemy/Run.png",
                                 "enemy/Jump.png",
                                 "enemy/Attack1.png",
+                                "enemy/Death.png"
                         },
                         new int[]{
                                 4,
                                 8,
                                 8,
                                 2,
-                                4
+                                4,
+                                7
                         },
                         EntityTypes.ENEMY,
                         data.getX(),

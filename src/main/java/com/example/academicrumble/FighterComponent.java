@@ -26,8 +26,10 @@ public class FighterComponent extends Component implements CharacterComponent {
     private final AnimationChannel right;
     private final AnimationChannel upDown;
     private final AnimationChannel attack;
+    private final AnimationChannel death;
     private boolean isJumping = false;
     private boolean attacking = false;
+    private boolean isDeath = false;
 
     public PhysicsComponent physics;
 
@@ -40,7 +42,9 @@ public class FighterComponent extends Component implements CharacterComponent {
         right = new AnimationChannel(FXGL.image(animations[2]), Duration.seconds(0.5), maxFrames[2]);
         upDown = new AnimationChannel(FXGL.image(animations[3]), Duration.seconds(0.5), maxFrames[3]);
         attack = new AnimationChannel(FXGL.image(animations[4]), Duration.seconds(0.5), maxFrames[4]);
+        death = new AnimationChannel(FXGL.image(animations[5]), Duration.seconds(0.5), maxFrames[5]);
         texture = new AnimatedTexture(upDown);
+        isDeath = false;
     }
 
     @Override
@@ -82,7 +86,7 @@ public class FighterComponent extends Component implements CharacterComponent {
     @Override
     public void idle() {
         physics.setVelocityX(0);
-        if (texture.getAnimationChannel() != idle && !attacking) {
+        if (texture.getAnimationChannel() != idle && !attacking && !isDeath) {
             texture.loopAnimationChannel(idle);
         }
     }
@@ -90,7 +94,7 @@ public class FighterComponent extends Component implements CharacterComponent {
     @Override
     public void left() {
         physics.setVelocityX(-SPEED);
-        if (texture.getAnimationChannel() != left  && !attacking) {
+        if (texture.getAnimationChannel() != left  && !attacking && !isDeath) {
             texture.loopAnimationChannel(left);
         }
     }
@@ -98,7 +102,7 @@ public class FighterComponent extends Component implements CharacterComponent {
     @Override
     public void right() {
         physics.setVelocityX(SPEED);
-        if (texture.getAnimationChannel() != right  && !attacking) {
+        if (texture.getAnimationChannel() != right  && !attacking && !isDeath) {
             texture.loopAnimationChannel(right);
         }
     }
@@ -108,7 +112,7 @@ public class FighterComponent extends Component implements CharacterComponent {
         if (physics.getVelocityY() == 0) {
             physics.applyBodyForceToCenter(new Vec2(0, JUMP_HEIGHT));
         }
-        if (texture.getAnimationChannel() != upDown  && !attacking) {
+        if (texture.getAnimationChannel() != upDown  && !attacking && !isDeath) {
             texture.loopAnimationChannel(upDown);
         }
     }
@@ -116,8 +120,16 @@ public class FighterComponent extends Component implements CharacterComponent {
     @Override
     public void down() {
         physics.setVelocityY(SPEED);
-        if (texture.getAnimationChannel() != upDown  && !attacking) {
+        if (texture.getAnimationChannel() != upDown  && !attacking && !isDeath) {
             texture.loopAnimationChannel(upDown);
+        }
+    }
+
+    @Override
+    public void death() {
+        isDeath = true;
+        if (texture.getAnimationChannel() != death) {
+            texture.playAnimationChannel(attack);
         }
     }
 

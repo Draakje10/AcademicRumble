@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
+import static com.example.academicrumble.Utils.getEnemy;
+import static com.example.academicrumble.Utils.getPlayer;
 
 public class Game extends GameApplication {
 
@@ -74,10 +76,24 @@ public class Game extends GameApplication {
             case 4 -> GameWorldController.loadTilemap("oudsidelvl4.tmx");
         }
 
-        GameWorldController.spawn("Player", new SpawnData(200,200));
-        GameWorldController.spawn("Enemy", new SpawnData(800,200));
+        GameWorldController.spawn("Player", new SpawnData(200,100));
+        GameWorldController.spawn("Enemy", new SpawnData(800,100));
         FXGL.getGameTimer().runAtInterval(()-> {FXGL.inc("GameTime" , 1);}, Duration.seconds(1));
 
+    }
+
+    @Override
+    protected void onUpdate(double tpf) {
+        super.onUpdate(tpf);
+
+        if (FXGL.geti("enemyHealth") <= 0) {
+            getEnemy().getComponent(FighterComponent.class).death();
+            getLeaderboard(true);
+        }
+        if (FXGL.geti("playerHealth") <= 0) {
+            getPlayer().getComponent(FighterComponent.class).death();
+            getLeaderboard(true);
+        }
     }
 
     @Override
