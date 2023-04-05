@@ -6,11 +6,14 @@ import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.IrremovableComponent;;
+import com.almasb.fxgl.entity.level.tiled.TiledMap;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,9 +58,13 @@ public class AcademicRumbleFactory implements EntityFactory {
     @Spawns("Wall")
     public Entity spawnWall(SpawnData data) {
         Sprite wall = new Sprite();
+        Polygon polyline = data.get("polygon");
+        double[] points = polyline.getPoints().stream().mapToDouble(Double::doubleValue).toArray();
         wall.setEntity(
             FXGL.entityBuilder(data)
-                .bbox(new HitBox(BoundingShape.box(40 * 32, 20 * 32)))
+                .type(EntityTypes.WALL)
+                .at(data.getX(), data.getY())
+                .bbox(new HitBox(BoundingShape.polygon(points)))
                 .with(new PhysicsComponent())
                 .build()
         );
