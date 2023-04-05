@@ -3,6 +3,7 @@ package com.example.academicrumble;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public class CharacterSelect extends FXGLMenu {
@@ -37,7 +39,6 @@ public class CharacterSelect extends FXGLMenu {
         pane.getChildren().add(imageView);
         getContentRoot().setTranslateX(FXGL.getAppWidth() / 2.0 - SIZE);
         getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE + 100);
-
         // LOGIN ------------------------------------------------------
 
         usernameField = new TextField();
@@ -84,8 +85,10 @@ public class CharacterSelect extends FXGLMenu {
         );
 
         bottomLeft.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 2;
-            getController().startNewGame();
+            if(usernameField.getText() != "") {
+                Globals.selectionFlag = 2;
+                getController().startNewGame();
+            }
         });
         bottomLeft.setTranslateY(SIZE);
         topLeft.setStrokeWidth(2.5);
@@ -98,8 +101,10 @@ public class CharacterSelect extends FXGLMenu {
         );
 
         topLeft.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 3;
-            getController().startNewGame();
+            if(usernameField.getText() != "") {
+                Globals.selectionFlag = 3;
+                getController().startNewGame();
+            }
         });
 
         topRight.setStrokeWidth(2.5);
@@ -111,8 +116,10 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(topRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
         topRight.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 4;
-            getController().startNewGame();
+            if(usernameField.getText() != ""){
+                Globals.selectionFlag = 4;
+                getController().startNewGame();
+            }
         });
 
 //        var shape3 = new Rectangle(SIZE*2, SIZE / 2);
@@ -144,4 +151,12 @@ public class CharacterSelect extends FXGLMenu {
 
         getContentRoot().getChildren().addAll(pane, topLeft, topRight, bottomRight,bottomLeft, usernameText,usernameField);
     }
+
+    private void loadLevel(int levelNumb, String username){
+        if(username != ""){
+            Globals.selectionFlag = 4;
+            getController().startNewGame();
+        }
+    }
+
 }
