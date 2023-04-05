@@ -37,7 +37,7 @@ public class Game extends GameApplication {
         vars.put("GameTime", 0);
         vars.put("bestName", "");
         vars.put("bestScore", 0);
-        vars.put("currentName", "");
+        vars.put("currentName", Globals.username);
         vars.put("currentScore", 0);
 
     }

@@ -68,10 +68,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(bottomRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomRight.setOnMouseClicked(e -> {
-            Globals.selectionFlag = 1;
-            getController().startNewGame();
-        });
+        bottomRight.setOnMouseClicked(e -> loadLevel(1,usernameField.getText()));
         bottomRight.setTranslateY(SIZE);
 
         var bottomLeft = Shape.subtract(bottom, new Rectangle(SIZE, 0, SIZE, SIZE));
@@ -84,12 +81,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(bottomLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        bottomLeft.setOnMouseClicked(e -> {
-            if(usernameField.getText() != "") {
-                Globals.selectionFlag = 2;
-                getController().startNewGame();
-            }
-        });
+        bottomLeft.setOnMouseClicked(e -> loadLevel(2,usernameField.getText()));
         bottomLeft.setTranslateY(SIZE);
         topLeft.setStrokeWidth(2.5);
         topLeft.strokeProperty().bind(
@@ -100,12 +92,7 @@ public class CharacterSelect extends FXGLMenu {
                 Bindings.when(topLeft.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
 
-        topLeft.setOnMouseClicked(e -> {
-            if(usernameField.getText() != "") {
-                Globals.selectionFlag = 3;
-                getController().startNewGame();
-            }
-        });
+        topLeft.setOnMouseClicked(e -> loadLevel(3,usernameField.getText()));
 
         topRight.setStrokeWidth(2.5);
         topRight.strokeProperty().bind(
@@ -115,12 +102,7 @@ public class CharacterSelect extends FXGLMenu {
         topRight.fillProperty().bind(
                 Bindings.when(topRight.pressedProperty()).then(Color.YELLOW).otherwise(Color.color(0.1, 0.05, 0.0, 0.75))
         );
-        topRight.setOnMouseClicked(e -> {
-            if(usernameField.getText() != ""){
-                Globals.selectionFlag = 4;
-                getController().startNewGame();
-            }
-        });
+        topRight.setOnMouseClicked(e -> loadLevel(4,usernameField.getText()));
 
 //        var shape3 = new Rectangle(SIZE*2, SIZE / 2);
 //        shape3.setStrokeWidth(2.5);
@@ -154,8 +136,10 @@ public class CharacterSelect extends FXGLMenu {
 
     private void loadLevel(int levelNumb, String username){
         if(username != ""){
-            Globals.selectionFlag = 4;
+            Globals.selectionFlag = levelNumb;
+            Globals.username = username;
             getController().startNewGame();
+            FXGL.set("currentName", username);
         }
     }
 
