@@ -15,8 +15,12 @@ public class Fighter extends Sprite {
 
     private final EntityTypes type;
 
-
-    public <T extends Component> Fighter(Point2D pos, EntityTypes type, T component) {
+    public <T extends Component> Fighter(
+            Point2D pos,
+            EntityTypes type,
+            BoundingShape shape,
+            T component
+    ) {
         super("", pos);
         this.type = type;
 
@@ -30,14 +34,20 @@ public class Fighter extends Sprite {
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
                 .with(physics)
-                .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
+                .bbox(new HitBox(shape)) // Add new bbox size
                 .with(component)
                 .type(this.type)
                 .collidable()
                 .build();
     }
 
-    public <T extends Component> Fighter(Point2D pos, Point2D scale, EntityTypes type, T component) {
+    public <T extends Component> Fighter(
+            Point2D pos,
+            Point2D scale,
+            EntityTypes type,
+            BoundingShape shape,
+            T component
+    ) {
         super("", pos, scale);
         this.type = type;
 
@@ -50,7 +60,7 @@ public class Fighter extends Sprite {
 
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
-                .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
+                .bbox(new HitBox(shape)) // Add new bbox size
                 .with(physics)
                 .with(component)
                 .scale(this.scale)

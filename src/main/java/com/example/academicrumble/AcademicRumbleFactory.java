@@ -9,9 +9,6 @@ import com.almasb.fxgl.entity.components.IrremovableComponent;;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,13 +31,24 @@ public class AcademicRumbleFactory implements EntityFactory {
 
     @Spawns("Player")
     public Entity spawnPlayer(@NotNull SpawnData data) {
-        Sprite player = new Fighter(new Point2D(data.getX(), data.getY()), EntityTypes.PLAYER, new PlayerComponent());
+        Sprite player = new Fighter(
+                new Point2D(data.getX(), data.getY()),
+                EntityTypes.PLAYER,
+                BoundingShape.box(100, 100),
+                new PlayerComponent(data.getX(), data.getY())
+        );
         return player.getEntity();
     }
 
     @Spawns("Enemy")
     public Entity spawnEnemy(@NotNull SpawnData data) {
-        Sprite enemy = new Fighter(new Point2D(data.getX(), data.getY()), EntityTypes.ENEMY, new EnemyComponent("pinky", data.getX(), data.getY()));
+        Sprite enemy = new Fighter(
+                new Point2D(data.getX(), data.getY()),
+                EntityTypes.ENEMY,
+                BoundingShape.box(100, 100),
+                new EnemyComponent(data.getX(), data.getY())
+
+        );
         return enemy.getEntity();
     }
 
