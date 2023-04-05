@@ -18,8 +18,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Game extends GameApplication {
 
-    public boolean isColliding;
-
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setSceneFactory(new MySceneFactory());
@@ -120,21 +118,6 @@ public class Game extends GameApplication {
     @Override
     protected void initPhysics(){
         FXGL.getPhysicsWorld().setGravity(Const.GRAVITY.getX(), Const.GRAVITY.getY());
-//        FXGL.getGameTimer().runAtInterval(() -> {
-//        },Duration.seconds(1));
-//        FXGL.getPhysicsWorld().setGravity(0,400);
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionBegin(Entity a, Entity b) {
-                isColliding = true;
-            }
-        });
-        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
-            @Override
-            protected void onCollisionEnd(Entity a, Entity b) {
-                isColliding = false;
-            }
-        });
 
     }
 
@@ -148,11 +131,9 @@ public class Game extends GameApplication {
         if (reachedEndOfGame) {
             builder.append("You have reached the end of the game!\n\n");
         }
-        builder.append("Best score: ")
-                .append(FXGL.gets("bestName") + ": ")
+        builder.append("Best score: ").append(FXGL.gets("bestName")).append(": ")
                 .append(FXGL.geti("bestScore"))
-                .append("\nFinal level: ")
-                .append(FXGL.gets("currentName") + ": ")
+                .append("\nFinal level: ").append(FXGL.gets("currentName")).append(": ")
                 .append(FXGL.geti("currentScore"));
 
         FXGL.getDialogService().showMessageBox(builder.toString(), () -> FXGL.getGameController().gotoMainMenu());
