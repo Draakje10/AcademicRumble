@@ -1,12 +1,11 @@
 package com.example.academicrumble;
 
-import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.input.KeyCode;
 import org.jetbrains.annotations.NotNull;
 
-import static com.example.academicrumble.utils.getPlayer;
+import static com.example.academicrumble.utils.getEnemy;
 
 public class EnemyAction implements Action {
     private UserAction action;
@@ -18,19 +17,19 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(EnemyComponent.class).left();
+                getEnemy().getComponent(EnemyComponent.class).left();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(EnemyComponent.class).left();
+                getEnemy().getComponent(EnemyComponent.class).left();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -41,19 +40,19 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(EnemyComponent.class).right();
+                getEnemy().getComponent(EnemyComponent.class).right();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(EnemyComponent.class).right();
+                getEnemy().getComponent(EnemyComponent.class).right();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -64,7 +63,7 @@ public class EnemyAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(EnemyComponent.class).up();
+                getEnemy().getComponent(EnemyComponent.class).up();
             }
 
             @Override
@@ -75,7 +74,7 @@ public class EnemyAction implements Action {
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -92,14 +91,14 @@ public class EnemyAction implements Action {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(EnemyComponent.class).attack();
+                getEnemy().getComponent(EnemyComponent.class).attack();
                 isAttacking = true;
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(EnemyComponent.class).idle();
+                getEnemy().getComponent(EnemyComponent.class).idle();
                 isAttacking = false;
             }
         };

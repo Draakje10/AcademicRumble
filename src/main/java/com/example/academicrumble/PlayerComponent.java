@@ -13,7 +13,7 @@ import javafx.util.Duration;
 import static com.example.academicrumble.Const.SPEED;
 
 @SuppressWarnings("unused")
-public class PlayerComponent extends Component {
+public class PlayerComponent extends Component implements CharacterComponent {
 
     private final double x;
     private final double y;
@@ -45,12 +45,14 @@ public class PlayerComponent extends Component {
         texture.loopAnimationChannel(idle);
     }
 
+    @Override
     public void attack() {
         if (texture.getAnimationChannel() != attack) {
             texture.loopAnimationChannel(attack);
         }
     }
 
+    @Override
     public void idle() {
         physics.setVelocityX(0);
         if (texture.getAnimationChannel() != idle) {
@@ -58,6 +60,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void left() {
         physics.setVelocityX(-SPEED);
         if (texture.getAnimationChannel() != left) {
@@ -65,6 +68,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void right() {
         physics.setVelocityX(SPEED);
         if (texture.getAnimationChannel() != right) {
@@ -72,6 +76,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void up() {
 //        physics.setVelocityY(-SPEED);
         if (physics.getVelocityY() == 0) {
@@ -84,6 +89,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void down() {
         physics.setVelocityY(SPEED);
         if (texture.getAnimationChannel() != upDown) {
@@ -91,6 +97,7 @@ public class PlayerComponent extends Component {
         }
     }
 
+    @Override
     public void respawn() {
         entity.removeFromWorld();
         GameWorldController.spawn("Player", new SpawnData(x, y));
