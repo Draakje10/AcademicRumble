@@ -18,6 +18,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Game extends GameApplication {
 
+    public boolean isColliding;
+
     @Override
     protected void initSettings(@NotNull GameSettings settings) {
         settings.setSceneFactory(new MySceneFactory());
@@ -32,7 +34,7 @@ public class Game extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("enemyHealth", 100);
         vars.put("playerHealth", 100);
-        vars.put("GameTime", 1);
+        vars.put("GameTime", 0);
         vars.put("bestName", "");
         vars.put("bestScore", 0);
         vars.put("currentName", Globals.username);
@@ -117,23 +119,43 @@ public class Game extends GameApplication {
 
     @Override
     protected void initPhysics(){
-        FXGL.getPhysicsWorld().setGravity(Const.GRAVITY.getX(), Const.GRAVITY.getY());
+        FXGL.getPhysicsWorld().setGravity(0,150);
+//        FXGL.getGameTimer().runAtInterval(() -> {
+//        },Duration.seconds(1));
+//        FXGL.getPhysicsWorld().setGravity(0,400);
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                isColliding = true;
+            }
+        });
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
+            @Override
+            protected void onCollisionEnd(Entity a, Entity b) {
+                isColliding = false;
+            }
+        });
 
     }
 
     private void getLeaderboard(boolean reachedEndOfGame) {
-        if(FXGL.geti("currentScore") == FXGL.geti("bestScore")){
-            FXGL.set("bestScore", FXGL.geti("currentScore"));
-            FXGL.set("bestName", FXGL.gets("currentName"));
+        FXGL.set("currentScore", FXGL.geti("GameTime"));
+        if(FXGL.geti("currentScore") >= Globals.bestScore){
+            Globals.bestScore=  FXGL.geti("currentScore");
+            Globals.bestName = FXGL.gets("currentName");
         }
         StringBuilder builder = new StringBuilder();
         builder.append("Game Over!\n\n");
         if (reachedEndOfGame) {
             builder.append("You have reached the end of the game!\n\n");
         }
-        builder.append("Best score: ").append(FXGL.gets("bestName")).append(": ")
-                .append(FXGL.geti("bestScore"))
-                .append("\nFinal level: ").append(FXGL.gets("currentName")).append(": ")
+        builder.append("Best score: ")
+//                .append(FXGL.gets("bestName") + ": ")
+                .append(Globals.bestName + ": ")
+                .append(Globals.bestScore)
+//                .append(FXGL.geti("bestScore"))
+                .append("\nYour score: ")
+                .append(FXGL.gets("currentName") + ": ")
                 .append(FXGL.geti("currentScore"));
 
         FXGL.getDialogService().showMessageBox(builder.toString(), () -> FXGL.getGameController().gotoMainMenu());
