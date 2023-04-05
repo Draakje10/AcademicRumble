@@ -15,8 +15,6 @@ import static com.example.academicrumble.Const.SPEED;
 @SuppressWarnings("unused")
 public class PlayerComponent extends Component {
 
-    private static final int SPEED = 150;
-
     private final double x;
     private final double y;
 
@@ -95,6 +93,6 @@ public class PlayerComponent extends Component {
 
     public void respawn() {
         entity.removeFromWorld();
-        FXGL.spawn("Player", new SpawnData(x, y));
+        GameWorldController.spawn("Player", new SpawnData(x, y));
     }
 }

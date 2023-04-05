@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.example.academicrumble.utils.getPlayer;
 
-public class PlayerAction implements Action {
+public class EnemyAction implements Action {
     private UserAction action;
     private boolean isAttacking = false;
 
@@ -18,19 +18,19 @@ public class PlayerAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(PlayerComponent.class).left();
+                getPlayer().getComponent(EnemyComponent.class).left();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(PlayerComponent.class).left();
+                getPlayer().getComponent(EnemyComponent.class).left();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(PlayerComponent.class).idle();
+                getPlayer().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -41,19 +41,19 @@ public class PlayerAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(PlayerComponent.class).right();
+                getPlayer().getComponent(EnemyComponent.class).right();
             }
 
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(PlayerComponent.class).right();
+                getPlayer().getComponent(EnemyComponent.class).right();
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(PlayerComponent.class).idle();
+                getPlayer().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -64,7 +64,7 @@ public class PlayerAction implements Action {
             @Override
             protected void onAction() {
                 super.onAction();
-                getPlayer().getComponent(PlayerComponent.class).up();
+                getPlayer().getComponent(EnemyComponent.class).up();
             }
 
             @Override
@@ -75,7 +75,7 @@ public class PlayerAction implements Action {
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(PlayerComponent.class).idle();
+                getPlayer().getComponent(EnemyComponent.class).idle();
             }
         };
     }
@@ -92,14 +92,14 @@ public class PlayerAction implements Action {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                getPlayer().getComponent(PlayerComponent.class).attack();
+                getPlayer().getComponent(EnemyComponent.class).attack();
                 isAttacking = true;
             }
 
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(PlayerComponent.class).idle();
+                getPlayer().getComponent(EnemyComponent.class).idle();
                 isAttacking = false;
             }
         };
@@ -114,4 +114,5 @@ public class PlayerAction implements Action {
     public UserAction getAction() {
         return action;
     }
+
 }

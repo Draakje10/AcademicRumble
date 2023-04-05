@@ -34,7 +34,7 @@ public class AcademicRumbleFactory implements EntityFactory {
         Sprite player = new Fighter(
                 new Point2D(data.getX(), data.getY()),
                 EntityTypes.PLAYER,
-                BoundingShape.box(100, 200),
+                BoundingShape.box(100, 100),
                 new PlayerComponent(data.getX(), data.getY())
         );
         return player.getEntity();
@@ -45,8 +45,8 @@ public class AcademicRumbleFactory implements EntityFactory {
         Sprite enemy = new Fighter(
                 new Point2D(data.getX(), data.getY()),
                 EntityTypes.ENEMY,
-                BoundingShape.box(20, 20),
-                new EnemyComponent("pinky", data.getX(), data.getY())
+                BoundingShape.box(100, 100),
+                new EnemyComponent(data.getX(), data.getY())
 
         );
         return enemy.getEntity();
