@@ -17,9 +17,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 public class MySceneFactory extends SceneFactory {
 
+    @NotNull
     @Override
     public FXGLMenu newMainMenu() {
         return new CharacterSelect(MenuType.MAIN_MENU);

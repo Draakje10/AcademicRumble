@@ -65,7 +65,7 @@ public class Game extends GameApplication {
         GameWorldController.loadTilemap("naamloos.tmx");
         GameWorldController.spawn("Player", new SpawnData(450,200));
         GameWorldController.spawn("Enemy", new SpawnData(400,200));
-        FXGL.getGameTimer().runAtInterval(()-> {}, Duration.seconds(2));
+        FXGL.getGameTimer().runAtInterval(()-> {}, Duration.seconds(1));
 
     }
 
@@ -105,8 +105,8 @@ public class Game extends GameApplication {
     @Override
     protected void initPhysics(){
         FXGL.getPhysicsWorld().setGravity(0,500);
-        FXGL.getGameTimer().runAtInterval(() -> {
-        },Duration.seconds(1));
+//        FXGL.getGameTimer().runAtInterval(() -> {
+//        },Duration.seconds(1));
 //        FXGL.getPhysicsWorld().setGravity(0,400);
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
             @Override
