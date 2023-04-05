@@ -5,16 +5,15 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
-import com.almasb.fxgl.entity.level.tiled.TiledMap;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 import java.util.Map;
 
@@ -64,39 +63,37 @@ public class Game extends GameApplication {
     @Override
     protected void initGame(){
         GameWorldController.addFactoryToWorld(new AcademicRumbleFactory());
-        FXGL.setLevelFromMap("naamloos.tmx");
-        GameWorldController.spawn("Player", new SpawnData(200,200));
+        GameWorldController.loadTilemap("naamloos.tmx");
+        GameWorldController.spawn("Player", new SpawnData(450,200));
         GameWorldController.spawn("Enemy", new SpawnData(400,200));
-        FXGL.getGameTimer().runAtInterval(()-> {
-        }, Duration.seconds(2));
+        FXGL.getGameTimer().runAtInterval(()-> {}, Duration.seconds(2));
 
     }
+
     @Override
     protected void initInput(){
-        FXGL.onKey(KeyCode.A, "Move Left", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
-        FXGL.onKey(KeyCode.D, "Move Right", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
-        FXGL.onKeyDown(KeyCode.SPACE, "Move Up", () -> getPlayer().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
-        FXGL.onKeyDown(KeyCode.TAB, () -> {
-            if (isColliding){
-                FXGL.inc("enemyHealth", -5);
-            }
-        });
-        FXGL.onKey(KeyCode.LEFT, "eMove Left", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(-Const.SPEED));
-        FXGL.onKey(KeyCode.RIGHT, "eMove Right", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityX(Const.SPEED));
-        FXGL.onKeyDown(KeyCode.UP, "eMove Up", () -> getEnemy().getComponent(PhysicsComponent.class).setVelocityY(-Const.SPEED));
-        FXGL.onKeyDown(KeyCode.SLASH, () -> {
-            if (isColliding){
-                FXGL.inc("playerHealth", -5);
-            }
-        });
+        Input input = getInput();
+
+        FighterAction.moveRight("Move Right");
+        FighterAction.addAction(input, KeyCode.D);
+
+        FighterAction.moveLeft("Move Left");
+        FighterAction.addAction(input, KeyCode.A);
+
+        FighterAction.attack("attack");
+        FighterAction.addAction(input, KeyCode.TAB);
+
+        FighterAction.upDown("Up Down");
+        FighterAction.addAction(input, KeyCode.SPACE);
+
     }
 
     @Override
     protected void initPhysics(){
         FXGL.getPhysicsWorld().setGravity(0,98);
         FXGL.getGameTimer().runAtInterval(() -> {
-
         },Duration.seconds(1));
+        FXGL.getPhysicsWorld().setGravity(0,400);
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityTypes.ENEMY, EntityTypes.PLAYER) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {

@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,11 @@ public class GameWorldController {
     @NotNull
     public static GameWorld world() {
         return FXGL.getGameWorld();
+    }
+
+    @NotNull
+    public static Level loadTilemap(String path) {
+        return FXGL.setLevelFromMap(path);
     }
 
     public ArrayList<Sprite> getWorldSprites() {

@@ -1,6 +1,7 @@
 package com.example.academicrumble;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 
@@ -28,4 +29,32 @@ public class EnemyComponent extends Component {
         entity.getViewComponent().addChild(upDown);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public Texture getLeft() {
+        return left;
+    }
+
+    public Texture getRight() {
+        return right;
+    }
+
+    public Texture getUpDown() {
+        return upDown;
+    }
+
+    public void respawn() {
+        entity.removeFromWorld();
+        FXGL.spawn("Player", new SpawnData(x, y));
+    }
 }

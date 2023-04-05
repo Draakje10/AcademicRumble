@@ -6,7 +6,7 @@ module com.example.academicrumble {
     requires annotations;
     opens assets.textures;
     opens assets.levels;
-
+    opens assets.textures.player;
     opens com.example.academicrumble to javafx.fxml;
     exports com.example.academicrumble;
 }
