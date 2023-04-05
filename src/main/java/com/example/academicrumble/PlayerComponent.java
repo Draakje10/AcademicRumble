@@ -18,13 +18,14 @@ public class PlayerComponent extends Component {
     private final double x;
     private final double y;
 
-    private final AnimatedTexture texture;
+    private AnimatedTexture texture;
     private final AnimationChannel idle;
     private final AnimationChannel left;
     private final AnimationChannel right;
     private final AnimationChannel upDown;
     private final AnimationChannel attack;
     private boolean isJumping = false;
+    private boolean attacking = false;
 
     public PhysicsComponent physics;
 
@@ -45,29 +46,51 @@ public class PlayerComponent extends Component {
         texture.loopAnimationChannel(idle);
     }
 
+//    @Override
+//    public void onUpdate(double tpf) {
+//        super.onUpdate(tpf);
+//    }
+
+    public void onUpdate() {
+
+    }
+
     public void attack() {
-        if (texture.getAnimationChannel() != attack) {
-            texture.loopAnimationChannel(attack);
+        System.out.println("attack");
+        attacking = true;
+        texture.playAnimationChannel(attack);
+        Point2D enemyPos = utils.getEnemy().getPosition();
+        Point2D playerPos = utils.getPlayer().getPosition();
+        System.out.println(playerPos.subtract(enemyPos));
+        if(playerPos.distance(enemyPos) < 140) {
+            Vec2 dir = new Vec2(playerPos.subtract(enemyPos).normalize()).mul(25);
+            dir.x = -dir.x;
+            physics.applyBodyForceToCenter(dir);
+            FXGL.inc("enemyHealth", -5);
         }
+        texture.setOnCycleFinished(() -> {
+            attacking = false;
+            texture.loopAnimationChannel(idle);
+        });
     }
 
     public void idle() {
         physics.setVelocityX(0);
-        if (texture.getAnimationChannel() != idle) {
+        if (texture.getAnimationChannel() != idle && !attacking) {
             texture.loopAnimationChannel(idle);
         }
     }
 
     public void left() {
         physics.setVelocityX(-SPEED);
-        if (texture.getAnimationChannel() != left) {
+        if (texture.getAnimationChannel() != left  && !attacking) {
             texture.loopAnimationChannel(left);
         }
     }
 
     public void right() {
         physics.setVelocityX(SPEED);
-        if (texture.getAnimationChannel() != right) {
+        if (texture.getAnimationChannel() != right  && !attacking) {
             texture.loopAnimationChannel(right);
         }
     }
@@ -76,17 +99,17 @@ public class PlayerComponent extends Component {
 //        physics.setVelocityY(-SPEED);
         if (physics.getVelocityY() == 0) {
             System.out.println("ground");
-            physics.applyBodyForceToCenter(new Vec2(0, 400));
+            physics.applyBodyForceToCenter(new Vec2(0, 15));
 //            isJumping = false;
         }
-        if (texture.getAnimationChannel() != upDown) {
+        if (texture.getAnimationChannel() != upDown  && !attacking) {
             texture.loopAnimationChannel(upDown);
         }
     }
 
     public void down() {
         physics.setVelocityY(SPEED);
-        if (texture.getAnimationChannel() != upDown) {
+        if (texture.getAnimationChannel() != upDown  && !attacking) {
             texture.loopAnimationChannel(upDown);
         }
     }

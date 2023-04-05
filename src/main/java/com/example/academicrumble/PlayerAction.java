@@ -99,7 +99,7 @@ public class PlayerAction implements Action {
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                getPlayer().getComponent(PlayerComponent.class).idle();
+//                getPlayer().getComponent(PlayerComponent.class).idle();
                 isAttacking = false;
             }
         };
