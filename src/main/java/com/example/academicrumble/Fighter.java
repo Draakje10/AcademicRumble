@@ -1,6 +1,9 @@
 package com.example.academicrumble;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
@@ -12,12 +15,13 @@ public class Fighter extends Sprite {
 
     private final EntityTypes type;
 
-    public Fighter(String path, Point2D pos, EntityTypes type) {
-        super(path, pos);
+
+    public <T extends Component> Fighter(Point2D pos, EntityTypes type, T component) {
+        super("", pos);
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
+        physics.setFixtureDef(new FixtureDef().friction(30).density(0.1f));
         BodyDef bd = new BodyDef();
         bd.setFixedRotation(true);
         bd.setType(BodyType.DYNAMIC);
@@ -25,19 +29,20 @@ public class Fighter extends Sprite {
 
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
-                .viewWithBBox(this.path)
                 .with(physics)
+                .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
+                .with(component)
                 .type(this.type)
                 .collidable()
                 .build();
     }
 
-    public Fighter(String path, Point2D pos, Point2D scale, EntityTypes type) {
-        super(path, pos, scale);
+    public <T extends Component> Fighter(Point2D pos, Point2D scale, EntityTypes type, T component) {
+        super("", pos, scale);
         this.type = type;
 
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setFixtureDef(new FixtureDef().friction(0).density(0.1f));
+        physics.setFixtureDef(new FixtureDef().friction(30).density(0.1f));
         BodyDef bd = new BodyDef();
         bd.setFixedRotation(true);
         bd.setType(BodyType.DYNAMIC);
@@ -45,9 +50,10 @@ public class Fighter extends Sprite {
 
         this.entity = FXGL.entityBuilder()
                 .at(this.pos)
-                .viewWithBBox(this.path)
-                .scale(this.scale)
+                .bbox(new HitBox(BoundingShape.box(20, 20))) // Add new bbox size
                 .with(physics)
+                .with(component)
+                .scale(this.scale)
                 .type(this.type)
                 .collidable()
                 .build();

@@ -34,13 +34,13 @@ public class AcademicRumbleFactory implements EntityFactory {
 
     @Spawns("Player")
     public Entity spawnPlayer(@NotNull SpawnData data) {
-        Sprite player = new Fighter("char.png", new Point2D(data.getX(), data.getY()), EntityTypes.PLAYER);
+        Sprite player = new Fighter(new Point2D(data.getX(), data.getY()), EntityTypes.PLAYER, new PlayerComponent());
         return player.getEntity();
     }
 
     @Spawns("Enemy")
     public Entity spawnEnemy(@NotNull SpawnData data) {
-        Sprite enemy = new Fighter("char.png", new Point2D(data.getX(), data.getY()), EntityTypes.ENEMY);
+        Sprite enemy = new Fighter(new Point2D(data.getX(), data.getY()), EntityTypes.ENEMY, new EnemyComponent("pinky", data.getX(), data.getY()));
         return enemy.getEntity();
     }
 
@@ -49,7 +49,6 @@ public class AcademicRumbleFactory implements EntityFactory {
         Sprite wall = new Sprite();
         wall.setEntity(
             FXGL.entityBuilder(data)
-                .from(data)
                 .bbox(new HitBox(BoundingShape.box(40 * 32, 20 * 32)))
                 .with(new PhysicsComponent())
                 .build()
