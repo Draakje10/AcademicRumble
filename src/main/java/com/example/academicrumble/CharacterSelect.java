@@ -12,6 +12,10 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -25,21 +29,35 @@ import org.jetbrains.annotations.NotNull;
 
 public class CharacterSelect extends FXGLMenu{
 
-    private static final int SIZE = FXGL.getAppHeight() /2 -50;
+    private static final int SIZE = FXGL.getAppHeight() /2 -100;
+    private TextField usernameField;
 
     public CharacterSelect(@NotNull MenuType type) {
         super(type);
 
+        // BG--------------------------------------------------------
         Image image = new Image("assets/textures/background.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(FXGL.getAppWidth());
         imageView.setFitHeight(FXGL.getAppHeight());
-        imageView.setLayoutX(-370);
-        imageView.setLayoutY(-50);
+        imageView.setLayoutX(-420);
+        imageView.setLayoutY(-FXGL.getAppHeight() / 2.0 + 120);
         Pane pane = new Pane();
         pane.getChildren().add(imageView);
         getContentRoot().setTranslateX(FXGL.getAppWidth() / 2.0 - SIZE);
-        getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE);
+        getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE + 100);
+
+        // LOGIN ------------------------------------------------------
+
+        usernameField = new TextField();
+//        usernameField.setPrefWidth(SIZE*2);
+        usernameField.setPrefSize(SIZE*2,50);
+        usernameField.setTranslateY(-100);
+
+        Text usernameText = FXGL.getUIFactoryService().newText("USERNAME", Color.WHITE, FontType.GAME, 24.0);
+
+        usernameText.setTranslateY(-120);
+        usernameText.setMouseTransparent(true);
 
         var shape = Shape.subtract(new Circle(SIZE, SIZE, SIZE), new Rectangle(0, SIZE, SIZE*2, SIZE));
 
@@ -120,6 +138,6 @@ public class CharacterSelect extends FXGLMenu{
 //        textOptions.setTranslateY(195);
 //        textOptions.setMouseTransparent(true);
 
-        getContentRoot().getChildren().addAll(pane,shape, shape2, bottomRight,bottomLeft);
+        getContentRoot().getChildren().addAll(pane,shape, shape2, bottomRight,bottomLeft, usernameText,usernameField);
     }
 }

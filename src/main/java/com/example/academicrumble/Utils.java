@@ -1,13 +1,11 @@
 package com.example.academicrumble;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.input.Input;
-import javafx.scene.input.KeyCode;
 import org.jetbrains.annotations.NotNull;
 
 
 
-public class utils {
+public class Utils {
     @NotNull
     public static Entity getPlayer() {
         return GameWorldController.world().getSingleton(EntityTypes.PLAYER);
