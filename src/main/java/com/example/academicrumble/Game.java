@@ -79,7 +79,8 @@ public class Game extends GameApplication {
         GameWorldController.spawn("Player", new SpawnData(200,100));
         GameWorldController.spawn("Enemy", new SpawnData(800,100));
         FXGL.getGameTimer().runAtInterval(()-> {FXGL.inc("GameTime" , 1);}, Duration.seconds(1));
-
+        FXGL.play("round1.wav");
+        FXGL.play("backgound-slow.wav");
     }
 
     @Override
@@ -88,10 +89,12 @@ public class Game extends GameApplication {
 
         if (FXGL.geti("enemyHealth") <= 0) {
             getEnemy().getComponent(FighterComponent.class).death();
+            FXGL.play("fatality.wav");
             getLeaderboard(true);
         }
         if (FXGL.geti("playerHealth") <= 0) {
             getPlayer().getComponent(FighterComponent.class).death();
+            FXGL.play("fatality.wav");
             getLeaderboard(true);
         }
     }

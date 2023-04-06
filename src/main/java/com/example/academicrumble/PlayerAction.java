@@ -1,5 +1,6 @@
 package com.example.academicrumble;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.input.KeyCode;
@@ -80,7 +81,6 @@ public class PlayerAction implements Action {
 
     //@Override
     public void attack(String name) {
-
         action = new UserAction(name) {
             @Override
             protected void onAction() {

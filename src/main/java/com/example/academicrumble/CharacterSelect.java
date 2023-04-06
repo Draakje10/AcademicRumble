@@ -5,10 +5,6 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
-import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class CharacterSelect extends FXGLMenu {
 
@@ -135,7 +133,7 @@ public class CharacterSelect extends FXGLMenu {
     }
 
     private void loadLevel(int levelNumb, String username){
-        if(username != ""){
+        if(!Objects.equals(username, "")){
             Globals.selectionFlag = levelNumb;
             Globals.username = username;
             getController().startNewGame();

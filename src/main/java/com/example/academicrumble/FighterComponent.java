@@ -59,25 +59,32 @@ public class FighterComponent extends Component implements CharacterComponent {
         texture.playAnimationChannel(attack);
         Point2D enemyPos = Utils.getEnemy().getPosition();
         Point2D playerPos = Utils.getPlayer().getPosition();
-//        System.out.println(enemyPos);
         if (this.type == EntityTypes.PLAYER) {
+            FXGL.play("enemyhit.wav");
             if (playerPos.distance(enemyPos) < 300) {
                 Vec2 dir = new Vec2(playerPos.subtract(enemyPos).normalize()).mul(LUNGE);
                 dir.x = -dir.x;
                 physics.applyBodyForceToCenter(dir);
-                FXGL.inc("enemyHealth", -10);
             }
         }
         else if (this.type == EntityTypes.ENEMY) {
+            FXGL.play("playerhit.wav");
             if (enemyPos.distance(playerPos) < 300) {
                 Vec2 dir = new Vec2(enemyPos.subtract(playerPos).normalize()).mul(LUNGE);
                 dir.x = -dir.x;
                 physics.applyBodyForceToCenter(dir);
-                FXGL.inc("playerHealth", -5);
             }
         }
 
         texture.setOnCycleFinished(() -> {
+            if (attacking) {
+                if (playerPos.distance(enemyPos) < 300) {
+                    if (this.type == EntityTypes.PLAYER)
+                        FXGL.inc("enemyHealth", -8);
+                    else if (this.type == EntityTypes.ENEMY)
+                        FXGL.inc("playerHealth", -6);
+                }
+            }
             attacking = false;
             texture.loopAnimationChannel(idle);
         });
