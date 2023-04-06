@@ -127,10 +127,6 @@ public class Game extends GameApplication {
         eAction.upDown("Enemy Up Down");
         eAction.addAction(input, KeyCode.UP);
 
-        FXGL.onKey(KeyCode.X, () -> {
-            getLeaderboard(true);
-        });
-
     }
 
     @Override
@@ -156,23 +152,68 @@ public class Game extends GameApplication {
 
     private void getLeaderboard(boolean reachedEndOfGame) {
         FXGL.set("currentScore", FXGL.geti("GameTime"));
-        if(FXGL.geti("currentScore") >= Globals.bestScore){
-            Globals.bestScore=  FXGL.geti("currentScore");
-            Globals.bestName = FXGL.gets("currentName");
+//        if(Globals.bestScore >= FXGL.geti("currentScore")) {
+//            Globals.bestScore =  FXGL.geti("currentScore");
+//            Globals.bestName = FXGL.gets("currentName");
+//        }
+        int previousScore = 0;
+        String previousName = "";
+
+        for (int i = 0; i < Globals.leaderboard.length; i++) {
+            if (FXGL.geti("currentScore") <= Globals.leaderboard[i].bestScore) {
+                // save previous best score and name
+                int tempScore = Globals.leaderboard[i].bestScore;
+                String tempName = Globals.leaderboard[i].bestName;
+
+                // update leaderboard with current score and name
+                Globals.leaderboard[i].bestScore = FXGL.geti("currentScore");
+                Globals.leaderboard[i].bestName = FXGL.gets("currentName");
+
+                // shift subsequent elements down by one index
+                for (int j = i+1; j < Globals.leaderboard.length; j++) {
+                    int nextScore = Globals.leaderboard[j].bestScore;
+                    String nextName = Globals.leaderboard[j].bestName;
+                    Globals.leaderboard[j].bestScore = previousScore;
+                    Globals.leaderboard[j].bestName = previousName;
+                    previousScore = nextScore;
+                    previousName = nextName;
+                }
+
+                // put the previous value one down
+                if (i < Globals.leaderboard.length-1) {
+                    Globals.leaderboard[i+1].bestScore = tempScore;
+                    Globals.leaderboard[i+1].bestName = tempName;
+                }
+                break;
+            } else {
+                // save current best score and name
+                previousScore = Globals.leaderboard[i].bestScore;
+                previousName = Globals.leaderboard[i].bestName;
+            }
         }
+//        for (int i = 0; i < Globals.leaderboard.length; i++) {
+//            if(FXGL.geti("currentScore") <= Globals.leaderboard[i].bestScore){
+//                Globals.leaderboard[i].bestScore = FXGL.geti("currentScore");
+//                Globals.leaderboard[i].bestname = FXGL.gets("currentName");
+//                break;
+//
+//            }
+//        }
         StringBuilder builder = new StringBuilder();
         builder.append("Game Over!\n\n");
         if (reachedEndOfGame) {
             builder.append("You have reached the end of the game!\n\n");
         }
-        builder.append("Best score: ")
-//                .append(FXGL.gets("bestName") + ": ")
-                .append(Globals.bestName + ": ")
-                .append(Globals.bestScore)
-//                .append(FXGL.geti("bestScore"))
-                .append("\nYour score: ")
-                .append(FXGL.gets("currentName") + ": ")
-                .append(FXGL.geti("currentScore"));
+
+        for (int i = 0; i < Globals.leaderboard.length; i++) {
+            if (Globals.leaderboard[i].bestName != "") {
+                builder.append(Globals.leaderboard[i].bestName + ": " + Globals.leaderboard[i].bestScore + "\n");
+            }
+
+        }
+        builder.append("\nYour score: ")
+               .append(FXGL.gets("currentName") + ": ")
+               .append(FXGL.geti("currentScore"));
 
         FXGL.getDialogService().showMessageBox(builder.toString(), () -> FXGL.getGameController().gotoMainMenu());
     }
